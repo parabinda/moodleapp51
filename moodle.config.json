@@ -1,8 +1,8 @@
 {
-    "app_id": "com.moodle.moodlemobile",
-    "appname": "Moodle Mobile",
-    "versioncode": 52000,
-    "versionname": "5.2.0",
+    "app_id": "com.evidya2.evidyamobile",
+    "appname": "EVidya Mobile",
+    "versioncode": 10000,
+    "versionname": "1.0.0",
     "cache_update_frequency_usually": 420000,
     "cache_update_frequency_often": 1200000,
     "cache_update_frequency_sometimes": 3600000,
@@ -69,16 +69,6 @@
     },
     "wsservice": "moodle_mobile_app",
     "demo_sites": {
-        "student": {
-            "url": "https://school.moodledemo.net",
-            "username": "student",
-            "password": "moodle25"
-        },
-        "teacher": {
-            "url": "https://school.moodledemo.net",
-            "username": "teacher",
-            "password": "moodle25"
-        }
     },
     "defaultZoomLevel": "none",
     "zoomlevels": {
@@ -86,13 +76,20 @@
         "medium": 110,
         "high": 120
     },
-    "customurlscheme": "moodlemobile",
-    "sites": [],
+    "customurlscheme": "evidya2mobile",
+    "sites": [
+            {
+        "name": "EVidya",
+        "alias": "EVidya Excellence",
+        "url": "https://app.evidyapith.com",
+        "staging": false
+    }
+    ],
     "multisitesdisplay": "",
     "sitefindersettings": {},
     "onlyallowlistedsites": false,
     "forcedefaultlanguage": false,
-    "privacypolicy": "https://moodle.net/moodle-app-privacy/",
+    "privacypolicy": "https://app.evidyapith.com/mod/page/view.php?id=629",
     "notificoncolor": "#f98012",
     "enableanalytics": false,
     "forceColorScheme": "",
@@ -100,7 +97,7 @@
     "showTopLogo": "hidden",
     "ioswebviewscheme": "moodleappfs",
     "appstores": {
-        "android": "com.moodle.moodlemobile",
+        "android": "com.evidya2.evidyamobile",
         "ios": "id633359593"
     },
     "wsrequestqueuelimit": 10,
