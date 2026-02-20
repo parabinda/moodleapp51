@@ -611,11 +611,16 @@ export default class CoreLoginSitePage implements OnInit {
      *
      * @param siteUrl Site URL.
      * @returns Whether to display URL.
-     */
+     * Arabinda - comment below choice
     displaySiteUrl(siteUrl: string): boolean {
         return CoreSitesFactory.makeUnauthenticatedSite(siteUrl).shouldDisplayInformativeLinks();
     }
 
+     */
+    /* Always hide - Arabinda*/
+    displaySiteUrl(siteUrl: string): boolean {
+    return false;  // Always hide
+    }
 }
 
 /**
