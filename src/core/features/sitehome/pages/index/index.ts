@@ -278,24 +278,6 @@ export default class CoreSiteHomeIndexPage implements OnInit, OnDestroy {
     }
 
     /*Arabinda  Added for  Category navigation */
-    private async openFocusedInstance() {
-        const blockInstanceId = CoreNavigator.getRouteNumberParam('blockInstanceId');
-        if (!blockInstanceId) {
-            return;
-        }
-
-        const { CoreBlockSideBlocksComponent } = await import('@features/block/components/side-blocks/side-blocks');
-
-        CoreModals.openSideModal({
-            component: CoreBlockSideBlocksComponent,
-            componentProps: {
-                contextLevel: ContextLevel.COURSE,
-                instanceId: this.siteHomeId,
-                initialBlockInstanceId: blockInstanceId,
-            },
-        });
-    }
-
     /**
      * Auto-redirect to categories on load - Arabinda
      */
