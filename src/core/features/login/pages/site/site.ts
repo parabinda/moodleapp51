@@ -91,12 +91,12 @@ export default class CoreLoginSitePage implements OnInit {
 
         const siteFinderSettings: Partial<CoreLoginSiteFinderSettings> = CoreConstants.CONFIG.sitefindersettings || {};
         this.siteFinderSettings = {
-            displaysitename: true,
+            displaysitename: false,
             displayimage: true,
             displayalias: true,
             displaycity: true,
             displaycountry: true,
-            displayurl: true,
+            displayurl: false,
             ...siteFinderSettings,
         };
 
