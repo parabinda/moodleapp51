@@ -119,6 +119,11 @@ export default class CoreSiteHomeIndexPage implements OnInit, OnDestroy {
         this.openFocusedInstance();
 
         this.route.queryParams.subscribe(() => this.openFocusedInstance());
+	/* Added for category navigation */
+	    // Arabinda -- Auto-redirect to categories - Arabinda
+        setTimeout(() => {
+              this.openCourseCategories();
+        }, 100);
     }
 
     /**
@@ -270,6 +275,34 @@ export default class CoreSiteHomeIndexPage implements OnInit, OnDestroy {
                 initialBlockInstanceId: blockInstanceId,
             },
         });
+    }
+
+    /*Arabinda  Added for  Category navigation */
+    private async openFocusedInstance() {
+        const blockInstanceId = CoreNavigator.getRouteNumberParam('blockInstanceId');
+        if (!blockInstanceId) {
+            return;
+        }
+
+        const { CoreBlockSideBlocksComponent } = await import('@features/block/components/side-blocks/side-blocks');
+
+        CoreModals.openSideModal({
+            component: CoreBlockSideBlocksComponent,
+            componentProps: {
+                contextLevel: ContextLevel.COURSE,
+                instanceId: this.siteHomeId,
+                initialBlockInstanceId: blockInstanceId,
+            },
+        });
+    }
+
+    /**
+     * Auto-redirect to categories on load - Arabinda
+     */
+    private autoRedirectToCategories(): void {
+        setTimeout(() => {
+            this.openCourseCategories();
+        }, 100);
     }
 
 }
