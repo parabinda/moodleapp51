@@ -25,7 +25,8 @@ import { CoreCourseAnyCourseData } from '@features/courses/services/courses';
 import { CoreCourseViewedModulesDBRecord } from '@features/course/services/database/course';
 import { sectionContentIsModule } from '@features/course/services/course';
 import { CoreCourseFormatDelegate } from '@features/course/services/format-delegate';
-import { CoreCourseModuleCompletionStatus } from '@features/course/constants';
+// //Arabinda - added - 2026-02-22: Import completion tracking for chapter progress bar
+import { CoreCourseModuleCompletionStatus, CoreCourseModuleCompletionTracking } from '@features/course/constants';
 import { CoreCourseModuleComponent } from '../module/module';
 
 /**
@@ -63,6 +64,31 @@ export class CoreCourseSectionComponent implements OnInit {
             ? CoreCourseFormatDelegate.getSectionHightlightedName(this.course)
             : undefined;
     }
+
+    // //Arabinda - added - 2026-02-22: Chapter progress bar computation - Start
+    /**
+     * Returns completion progress for this section based on tracked modules.
+     * Returns null if no trackable modules exist in this section.
+     */
+    getSectionProgress(): { percent: number; completed: number; total: number } | null {
+        const modules = this.section.contents.filter(item => sectionContentIsModule(item));
+        const trackable = modules.filter(
+            m => m.completiondata && m.completiondata.tracking !== CoreCourseModuleCompletionTracking.NONE,
+        );
+        if (trackable.length === 0) {
+            return null;
+        }
+        const completed = trackable.filter(
+            m => m.completiondata!.state !== CoreCourseModuleCompletionStatus.COMPLETION_INCOMPLETE,
+        ).length;
+
+        return {
+            percent: Math.round((completed / trackable.length) * 100),
+            completed,
+            total: trackable.length,
+        };
+    }
+    // //Arabinda - added - 2026-02-22: Chapter progress bar computation - End
 
 }
 

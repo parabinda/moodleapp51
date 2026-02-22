@@ -71,6 +71,21 @@
         </ion-item>
     }
 
+    <!-- //Arabinda - added - 2026-02-22: Chapter progress bar below section name - Start -->
+    @if (getSectionProgress(); as chapterProgress) {
+        <div class="arabinda-chapter-progress">
+            <div class="arabinda-chapter-progress-header">
+                <span class="arabinda-chapter-progress-label">Chapter Progress</span>
+                <span class="arabinda-chapter-progress-percent">{{ chapterProgress.percent }}%</span>
+            </div>
+            <core-progress-bar [progress]="chapterProgress.percent" />
+            <div class="arabinda-chapter-progress-footer">
+                {{ chapterProgress.completed }} of {{ chapterProgress.total }} completed
+            </div>
+        </div>
+    }
+    <!-- //Arabinda - added - 2026-02-22: Chapter progress bar below section name - End -->
+
     <ng-container *ngFor="let modOrSubsection of section.contents">
         @if (!isModule(modOrSubsection)) {
             <core-course-section [course]="course" [section]="modOrSubsection" [lastModuleViewed]="lastModuleViewed"

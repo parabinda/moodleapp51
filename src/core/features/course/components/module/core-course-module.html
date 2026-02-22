@@ -82,13 +82,15 @@
                         }
                     </div>
 
+                    <!-- //Arabinda - commented - 2026-02-22: Activity dates (Opened/Closes) hidden - Start -->
                     <!-- Activity dates. -->
-                    @if (showActivityDates && module.dates?.length) {
+                    <!-- @if (showActivityDates && module.dates?.length) {
                         <div class="activity-dates activity-extra">
                             <core-reminders-date *ngFor="let date of module.dates" [type]="date.dataid" [label]="date.label"
                                 [time]="date.timestamp" [relativeTo]="date.relativeto" />
                         </div>
-                    }
+                    } -->
+                    <!-- //Arabinda - commented - 2026-02-22: Activity dates (Opened/Closes) hidden - End -->
 
                     <!-- Activity completion. -->
                     @if (hasCompletion && !showLegacyCompletion) {

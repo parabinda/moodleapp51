@@ -54,7 +54,9 @@
                     <ion-card *ngFor="let category of categories" [attr.data-category-id]="category.id">
                         <ion-item button class="ion-text-wrap" (click)="openCategory(category.id)" [attr.aria-label]="category.name"
                             [detail]="true">
-                            <ion-icon name="fas-folder" slot="start" [attr.aria-label]="'core.category' | translate" />
+                            <!-- //Arabinda - commented - 2026-02-22: Folder icon before category name hidden - Start -->
+                            <!-- <ion-icon name="fas-folder" slot="start" [attr.aria-label]="'core.category' | translate" /> -->
+                            <!-- //Arabinda - commented - 2026-02-22: Folder icon before category name hidden - End -->
                             <ion-label>
                                 <p class="item-heading">
                                     <core-format-text [text]="category.name" contextLevel="coursecat" [contextInstanceId]="category.id" />

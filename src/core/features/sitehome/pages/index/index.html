@@ -75,9 +75,11 @@
                         @case ('LIST_OF_COURSE') {
                             <ng-template *ngTemplateOutlet="allCourseList" />
                         }
-                        @case ('LIST_OF_CATEGORIES') {
+                        <!-- //Arabinda - commented - 2026-02-22: Hide categories folder item on site home (auto-redirect handles navigation) - Start -->
+                        <!-- @case ('LIST_OF_CATEGORIES') {
                             <ng-template *ngTemplateOutlet="categories" />
-                        }
+                        } -->
+                        <!-- //Arabinda - commented - 2026-02-22: Hide categories folder item on site home - End -->
                         @case ('COURSE_SEARCH_BOX') {
                             <ng-template *ngTemplateOutlet="courseSearch" />
                         }

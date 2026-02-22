@@ -54,7 +54,9 @@
                             </ion-button>
                         }
                     </ion-item>
-                    @if (progress !== undefined || course.startdate || course.enddate) {
+                    <!-- //Arabinda - commented - 2026-02-22: Course dates and summary block - Start -->
+                    <!-- Keep progress bar visible, hide start/end dates -->
+                    @if (progress !== undefined) {
                         <ion-item class="ion-text-wrap">
                             <ion-label>
                                 @if (progress !== undefined) {
@@ -62,7 +64,8 @@
                                         <core-progress-bar [progress]="progress" a11yText="core.course.aria:sectionprogress" />
                                     </div>
                                 }
-                                @if (course.startdate || course.enddate) {
+                                <!-- //Arabinda - commented - 2026-02-22: Course start/end dates hidden - Start -->
+                                <!-- @if (course.startdate || course.enddate) {
                                     <div class="core-course-dates">
                                         @if (course.startdate) {
                                             <core-reminders-date component="course" [instanceId]="course.id" type="coursestart"
@@ -75,12 +78,14 @@
                                                 [title]="course.fullname" [url]="courseUrl" />
                                         }
                                     </div>
-                                }
+                                } -->
+                                <!-- //Arabinda - commented - 2026-02-22: Course start/end dates hidden - End -->
                             </ion-label>
                         </ion-item>
                     }
 
-                    @if (course.summary) {
+                    <!-- //Arabinda - commented - 2026-02-22: Course summary section hidden - Start -->
+                    <!-- @if (course.summary) {
                         <ion-item class="ion-text-wrap" [detail]="false">
                             <ion-label>
                                 <h2 class="item-heading">
@@ -90,7 +95,8 @@
                                     [contextInstanceId]="course.id" />
                             </ion-label>
                         </ion-item>
-                    }
+                    } -->
+                    <!-- //Arabinda - commented - 2026-02-22: Course summary section hidden - End -->
 
                     @if (course.contacts && course.contacts.length) {
                         <ion-list>
