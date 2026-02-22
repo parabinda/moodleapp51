@@ -44,6 +44,20 @@
                 </div>
             }
         </ion-label>
+        <!-- //Arabinda - added - 2026-02-22: Donut chart showing chapter progress next to section name - Start -->
+        @if (getSectionProgress(); as donutProgress) {
+            <div slot="end" class="arabinda-section-donut" [attr.aria-label]="donutProgress.percent + '% completed'">
+                <svg width="30" height="30" viewBox="0 0 36 36">
+                    <circle cx="18" cy="18" r="15.9" fill="none" stroke="#e8e8e8" stroke-width="3.5"/>
+                    <circle cx="18" cy="18" r="15.9" fill="none"
+                            stroke="#b8860b" stroke-width="3.5"
+                            [attr.stroke-dasharray]="donutProgress.percent + ' ' + (100 - donutProgress.percent)"
+                            stroke-linecap="round"
+                            transform="rotate(-90 18 18)"/>
+                </svg>
+            </div>
+        }
+        <!-- //Arabinda - added - 2026-02-22: Donut chart - End -->
         @if (section.highlighted && highlightedName) {
             <ion-badge slot="end">{{highlightedName}}</ion-badge>
         }
@@ -71,20 +85,20 @@
         </ion-item>
     }
 
-    <!-- //Arabinda - added - 2026-02-22: Chapter progress bar below section name - Start -->
+    <!-- //Arabinda - added - 2026-02-22: Chapter progress bar (compact layout) - Start -->
     @if (getSectionProgress(); as chapterProgress) {
         <div class="arabinda-chapter-progress">
             <div class="arabinda-chapter-progress-header">
                 <span class="arabinda-chapter-progress-label">Chapter Progress</span>
-                <span class="arabinda-chapter-progress-percent">{{ chapterProgress.percent }}%</span>
+                <span class="arabinda-chapter-progress-right">
+                    <strong class="arabinda-chapter-progress-percent">{{ chapterProgress.percent }}%</strong>
+                    <span class="arabinda-chapter-progress-count">&nbsp;· {{ chapterProgress.completed }}/{{ chapterProgress.total }}</span>
+                </span>
             </div>
             <core-progress-bar [progress]="chapterProgress.percent" />
-            <div class="arabinda-chapter-progress-footer">
-                {{ chapterProgress.completed }} of {{ chapterProgress.total }} completed
-            </div>
         </div>
     }
-    <!-- //Arabinda - added - 2026-02-22: Chapter progress bar below section name - End -->
+    <!-- //Arabinda - added - 2026-02-22: Chapter progress bar - End -->
 
     <ng-container *ngFor="let modOrSubsection of section.contents">
         @if (!isModule(modOrSubsection)) {

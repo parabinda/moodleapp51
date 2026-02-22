@@ -45,12 +45,12 @@
         margin-top: 0px;
     }
 
-    // //Arabinda - added - 2026-02-22: Chapter progress bar styles - Start
+    // //Arabinda - added - 2026-02-22: Chapter progress bar styles (compact) - Start
     .arabinda-chapter-progress {
-        margin: 8px 16px 4px 16px;
-        padding: 10px 14px 10px 18px;
-        background: var(--ion-color-light, #fff8f0);
-        border-left: 4px solid var(--ion-color-primary, #e07b00);
+        margin: 8px 16px 6px 16px;
+        padding: 8px 14px 10px 18px;
+        background: #fff8f0;
+        border-left: 4px solid #b8860b;
         border-radius: 4px;
 
         .arabinda-chapter-progress-header {
@@ -64,33 +64,50 @@
                 color: var(--ion-color-medium, #888);
             }
 
-            .arabinda-chapter-progress-percent {
-                font-size: 14px;
-                font-weight: bold;
-                color: var(--ion-color-primary, #e07b00);
+            .arabinda-chapter-progress-right {
+                display: flex;
+                align-items: center;
+
+                .arabinda-chapter-progress-percent {
+                    font-size: 14px;
+                    font-weight: bold;
+                    color: #b8860b;
+                }
+
+                .arabinda-chapter-progress-count {
+                    font-size: 12px;
+                    color: var(--ion-color-medium, #888);
+                }
             }
         }
 
         core-progress-bar {
             display: block;
-            margin-bottom: 4px;
-        }
-
-        .arabinda-chapter-progress-footer {
-            font-size: 12px;
-            color: var(--ion-color-medium, #888);
-            text-align: right;
         }
     }
     // //Arabinda - added - 2026-02-22: Chapter progress bar styles - End
 
-    // //Arabinda - added - 2026-02-22: Section separator between topics - Start
-    &.non-collapsible {
-        .core-course-module-list-wrapper {
-            border-top: 2px solid var(--ion-color-primary, #e07b00);
-            margin-top: 12px;
-            padding-top: 0;
+    // //Arabinda - added - 2026-02-22: Section donut chart in header - Start
+    .arabinda-section-donut {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-inline-start: 8px;
+        flex-shrink: 0;
+
+        svg {
+            display: block;
         }
     }
-    // //Arabinda - added - 2026-02-22: Section separator between topics - End
+    // //Arabinda - added - 2026-02-22: Section donut chart - End
+
+    // //Arabinda - added - 2026-02-22: Section separator — thick dark yellow line, curved left edge - Start
+    &.non-collapsible {
+        .core-course-module-list-wrapper {
+            border-top: 5px solid #b8860b;
+            border-top-left-radius: 6px;
+            margin-top: 10px;
+        }
+    }
+    // //Arabinda - added - 2026-02-22: Section separator - End
 }

@@ -244,9 +244,11 @@ export default class CoreSiteHomeIndexPage implements OnInit, OnDestroy {
     /**
      * Go to course categories.
      */
+    // //Arabinda - added - 2026-02-22: replace:true removes site home from back stack so back button skips blank page - Start
     openCourseCategories(): void {
-        CoreNavigator.navigateToSitePath('courses/categories');
+        CoreNavigator.navigateToSitePath('courses/categories', { replace: true });
     }
+    // //Arabinda - added - 2026-02-22: replace:true removes site home from back stack - End
 
     /**
      * @inheritdoc

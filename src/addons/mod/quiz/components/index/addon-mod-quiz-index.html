@@ -19,45 +19,38 @@
     <core-course-module-info [module]="module" [description]="description" [component]="component" [componentId]="componentId"
         [courseId]="courseId" [hasDataToSync]="!!buttonText && hasOffline" (completionChanged)="onCompletionChange()" />
 
-    <!-- Access rules description messages. -->
+    <!-- //Arabinda - added - 2026-02-22: Quiz info table with dark yellow borders (replaces old ion-list card) - Start -->
     @if (gradeMethodReadable || accessRules.length || syncTime) {
-        <ion-card>
-            <ion-list>
-                <ion-item class="ion-text-wrap" *ngFor="let rule of accessRules">
-                    <ion-label>
-                        <p class="item-heading">{{ rule }}</p>
-                    </ion-label>
-                </ion-item>
+        <div class="arabinda-quiz-info-table-wrapper">
+            <table class="arabinda-quiz-info-table">
+                @for (rule of accessRules; track rule) {
+                    <tr>
+                        <td class="arabinda-quiz-info-key">{{ rule.split(': ')[0] }}</td>
+                        <td class="arabinda-quiz-info-value">{{ rule.split(': ').slice(1).join(': ') }}</td>
+                    </tr>
+                }
                 @if (gradeMethodReadable) {
-                    <ion-item class="ion-text-wrap">
-                        <ion-label>
-                            <p class="item-heading">{{ 'addon.mod_quiz.grademethod' | translate }}</p>
-                            <p>{{ gradeMethodReadable }}</p>
-                        </ion-label>
-                    </ion-item>
+                    <tr>
+                        <td class="arabinda-quiz-info-key">{{ 'addon.mod_quiz.grademethod' | translate }}</td>
+                        <td class="arabinda-quiz-info-value">{{ gradeMethodReadable }}</td>
+                    </tr>
                 }
                 @if (bestGrade && gradeToPass && quiz && quiz.gradeFormatted) {
-                    <ion-item class="ion-text-wrap">
-                        <ion-label>
-                            <p class="item-heading">{{ 'core.grades.gradepass' | translate }}</p>
-                            <p>{{ 'addon.mod_quiz.outof' | translate: { $a: {
-                                grade: gradeToPass,
-                                maxgrade: quiz.gradeFormatted
-                        } } }}</p>
-                        </ion-label>
-                    </ion-item>
+                    <tr>
+                        <td class="arabinda-quiz-info-key">{{ 'core.grades.gradepass' | translate }}</td>
+                        <td class="arabinda-quiz-info-value">{{ 'addon.mod_quiz.outof' | translate: { $a: { grade: gradeToPass, maxgrade: quiz.gradeFormatted } } }}</td>
+                    </tr>
                 }
                 @if (syncTime) {
-                    <ion-item class="ion-text-wrap">
-                        <ion-label>
-                            <p class="item-heading">{{ 'core.lastsync' | translate }}</p>
-                            <p>{{ syncTime }}</p>
-                        </ion-label>
-                    </ion-item>
+                    <tr>
+                        <td class="arabinda-quiz-info-key">{{ 'core.lastsync' | translate }}</td>
+                        <td class="arabinda-quiz-info-value">{{ syncTime }}</td>
+                    </tr>
                 }
-            </ion-list>
-        </ion-card>
+            </table>
+        </div>
     }
+    <!-- //Arabinda - added - 2026-02-22: Quiz info table - End -->
 
     <!-- List of user attempts. -->
     @if (quiz && attempts.length) {

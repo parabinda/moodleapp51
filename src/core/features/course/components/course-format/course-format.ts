@@ -795,13 +795,12 @@ export class CoreCourseFormatComponent implements OnInit, OnChanges, OnDestroy {
         );
 
         if (expandedSections === undefined) {
+            // //Arabinda - added - 2026-02-22: Collapse all sections by default on first visit (original: expand all) - Start
             this.accordionMultipleValue = [];
-
-            // Expand all sections if not defined.
             CoreCourseHelper.flattenSections(this.sections).forEach((section) => {
-                section.expanded = true;
-                this.accordionMultipleValue.push(section.id.toString());
+                section.expanded = false; // all collapsed by default
             });
+            // //Arabinda - added - 2026-02-22: Collapse all sections by default - End
 
             return;
         }

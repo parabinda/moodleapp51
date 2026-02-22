@@ -24,13 +24,15 @@
         </div>
     }
 
+    <!-- //Arabinda - commented - 2026-02-22: Activity dates (Opened/Closes) on quiz detail page hidden - Start -->
     <!-- Activity dates. -->
-    @if (module.dates && module.dates.length) {
+    <!-- @if (module.dates && module.dates.length) {
         <div class="core-module-dates core-module-info-box-section">
             <core-reminders-date *ngFor="let date of module.dates" [component]="component" [instanceId]="module.id" [type]="date.dataid"
                 [label]="date.label" [time]="date.timestamp" [relativeTo]="date.relativeto" [title]="module.name" [url]="module.url" />
         </div>
-    }
+    } -->
+    <!-- //Arabinda - commented - 2026-02-22: Activity dates hidden - End -->
 
     <!-- Availability info space. -->
     @if (showAvailabilityInfo && module.availabilityinfo) {
