@@ -1,4 +1,5 @@
 name: Build Unsigned Ionic Cordova IPA
+
 on:
   push:
     branches: [ main ]
@@ -7,15 +8,33 @@ on:
 jobs:
   build:
     runs-on: macos-latest
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # ✅ FIX 1: Use Node 18 (Cordova/Ionic compatible)
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '22'
+
+      # Cache npm dependencies
+      - name: Cache npm dependencies
+        uses: actions/cache@v4
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-npm-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-npm-
+
+      # Cache node_modules
+      - name: Cache node_modules
+        uses: actions/cache@v4
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node-modules-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-modules-
 
       - name: Install Ionic and Cordova
         run: npm install -g @ionic/cli cordova
@@ -23,27 +42,85 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      # Cache Cordova platforms
+      - name: Cache Cordova iOS platform
+        uses: actions/cache@v4
+        with:
+          path: platforms/ios
+          key: ${{ runner.os }}-cordova-ios-${{ hashFiles('**/package-lock.json') }}-${{ hashFiles('config.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-cordova-ios-
+
       - name: Add iOS Platform
-        run: ionic cordova platform add ios@7.1.1
-
-      # ✅ FIX 2: Force iOS 12.0 deployment target + reinstall pods
-      - name: Fix iOS deployment target
         run: |
-          sed -i '' "s/platform :ios, '.*'/platform :ios, '12.0'/" platforms/ios/Podfile || true
-          cd platforms/ios
-          pod install
-          cd ../..
+          if [ ! -d "platforms/ios" ]; then
+            ionic cordova platform add ios@7.1.1
+          else
+            echo "iOS platform already cached, skipping..."
+          fi
 
-      # ✅ FIX 3: Build for DEVICE (iphoneos), not simulator
-      - name: Build iOS Project (Unsigned, Device)
+      # Cache CocoaPods specs repo (this is the big one - saves 2-3 mins)
+      - name: Cache CocoaPods specs
+        uses: actions/cache@v4
+        with:
+          path: ~/.cocoapods
+          key: ${{ runner.os }}-cocoapods-specs-${{ hashFiles('**/Podfile.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-cocoapods-specs-
+
+      # Cache Pods directory itself
+      - name: Cache Pods directory
+        uses: actions/cache@v4
+        with:
+          path: platforms/ios/Pods
+          key: ${{ runner.os }}-pods-${{ hashFiles('**/Podfile.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-pods-
+
+      - name: Install CocoaPods dependencies
+        working-directory: platforms/ios
         run: |
-          ionic cordova build ios --release --device -- --CODE_SIGN_IDENTITY="" --CODE_SIGNING_REQUIRED=NO --CODE_SIGNING_ALLOWED=NO
+          if [ ! -d "Pods" ]; then
+            pod install
+          else
+            echo "Pods already cached, skipping pod install..."
+          fi
+
+      # Cache Xcode DerivedData (compiled object files)
+      - name: Cache Xcode DerivedData
+        uses: actions/cache@v4
+        with:
+          path: ~/Library/Developer/Xcode/DerivedData
+          key: ${{ runner.os }}-xcode-derived-${{ hashFiles('**/Podfile.lock') }}-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-xcode-derived-
+
+      - name: Build iOS Project (Debug - Unsigned)
+        run: |
+          ionic cordova build ios --debug --device \
+            -- \
+            CODE_SIGN_IDENTITY="" \
+            CODE_SIGNING_REQUIRED=NO \
+            CODE_SIGNING_ALLOWED=NO \
+            DEVELOPMENT_TEAM="" \
+            CODE_SIGN_ENTITLEMENTS="" \
+            PROVISIONING_PROFILE=""
 
       - name: Package Unsigned IPA
+        working-directory: platforms/ios
         run: |
+          APP_PATH=$(find . -name "*.app" -not -path "*/Simulator/*" | head -1)
+
+          if [ -z "$APP_PATH" ]; then
+            echo "No .app found in build output, checking archive..."
+            APP_PATH=$(find EVidya.xcarchive -name "*.app" | head -1)
+          fi
+
+          echo "Using app at: $APP_PATH"
           mkdir -p Payload
-          cp -r platforms/ios/build/device/*.app Payload/
-          zip -r EVidyaIos.ipa Payload
+          cp -r "$APP_PATH" Payload/
+          zip -r EVidyaIos.ipa Payload/
+          mv EVidyaIos.ipa ../../EVidyaIos.ipa
 
       - name: Upload IPA Artifact
         uses: actions/upload-artifact@v4
