@@ -11,6 +11,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      # ✅ FIX 1: Use Node 18 (Cordova/Ionic compatible)
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
@@ -25,13 +26,20 @@ jobs:
       - name: Add iOS Platform
         run: ionic cordova platform add ios@7.1.1
 
-      - name: Build iOS Project (Unsigned)
-        # We skip code signing here to build on GitHub without a paid account
+      # ✅ FIX 2: Force iOS 12.0 deployment target + reinstall pods
+      - name: Fix iOS deployment target
         run: |
-          ionic cordova build ios --release -- --CODE_SIGN_IDENTITY="" --CODE_SIGNING_REQUIRED=NO --CODE_SIGNING_ALLOWED=NO
+          sed -i '' "s/platform :ios, '.*'/platform :ios, '12.0'/" platforms/ios/Podfile || true
+          cd platforms/ios
+          pod install
+          cd ../..
+
+      # ✅ FIX 3: Build for DEVICE (iphoneos), not simulator
+      - name: Build iOS Project (Unsigned, Device)
+        run: |
+          ionic cordova build ios --release --device -- --CODE_SIGN_IDENTITY="" --CODE_SIGNING_REQUIRED=NO --CODE_SIGNING_ALLOWED=NO
 
       - name: Package Unsigned IPA
-        # IPA is just a renamed zip of the 'Payload' folder containing the .app
         run: |
           mkdir -p Payload
           cp -r platforms/ios/build/device/*.app Payload/
