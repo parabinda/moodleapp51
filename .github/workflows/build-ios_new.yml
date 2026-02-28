@@ -1,24 +1,25 @@
-name: Build Unsigned Ionic Cordova IPA
+name: Build Ionic Cordova IPA
 
 on:
-  push:
-    branches: [ main ]
   workflow_dispatch:
 
 jobs:
   build:
-    runs-on: macos-latest
+    runs-on: macos-13
+    timeout-minutes: 45
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+
+      - name: Select Xcode 15.2
+        run: sudo xcode-select -s /Applications/Xcode_15.2.app/Contents/Developer
 
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '22'
 
-      # Cache npm dependencies
       - name: Cache npm dependencies
         uses: actions/cache@v4
         with:
@@ -27,7 +28,6 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-npm-
 
-      # Cache node_modules
       - name: Cache node_modules
         uses: actions/cache@v4
         with:
@@ -42,7 +42,6 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      # Cache Cordova platforms
       - name: Cache Cordova iOS platform
         uses: actions/cache@v4
         with:
@@ -59,7 +58,6 @@ jobs:
             echo "iOS platform already cached, skipping..."
           fi
 
-      # Cache CocoaPods specs repo (this is the big one - saves 2-3 mins)
       - name: Cache CocoaPods specs
         uses: actions/cache@v4
         with:
@@ -68,7 +66,6 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-cocoapods-specs-
 
-      # Cache Pods directory itself
       - name: Cache Pods directory
         uses: actions/cache@v4
         with:
@@ -86,7 +83,6 @@ jobs:
             echo "Pods already cached, skipping pod install..."
           fi
 
-      # Cache Xcode DerivedData (compiled object files)
       - name: Cache Xcode DerivedData
         uses: actions/cache@v4
         with:
@@ -95,28 +91,60 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-xcode-derived-
 
-      - name: Build iOS Project (Debug - Unsigned)
+      - name: Patch signing into xcodeproj
+        env:
+          APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
         run: |
-          ionic cordova build ios --debug --device \
-            -- \
+          PBXPROJ="platforms/ios/EVidya.xcodeproj/project.pbxproj"
+          sed -i '' "s/DEVELOPMENT_TEAM = [^;]*;/DEVELOPMENT_TEAM = $APPLE_TEAM_ID;/g" "$PBXPROJ"
+          sed -i '' 's/CODE_SIGN_IDENTITY = [^;]*;/CODE_SIGN_IDENTITY = "";/g' "$PBXPROJ"
+          sed -i '' 's/CODE_SIGNING_REQUIRED = [^;]*;/CODE_SIGNING_REQUIRED = NO;/g' "$PBXPROJ"
+          sed -i '' 's/CODE_SIGNING_ALLOWED = [^;]*;/CODE_SIGNING_ALLOWED = NO;/g' "$PBXPROJ"
+          sed -i '' 's/PROVISIONING_PROFILE_SPECIFIER = [^;]*;/PROVISIONING_PROFILE_SPECIFIER = "";/g' "$PBXPROJ"
+          echo "--- Verify patch ---"
+          grep -E "DEVELOPMENT_TEAM|CODE_SIGN|PROVISIONING" "$PBXPROJ" | head -20
+
+      - name: Sanity check before build
+        run: |
+          echo "--- Xcode version ---"
+          xcodebuild -version
+          echo "--- Team ID in pbxproj ---"
+          grep "DEVELOPMENT_TEAM" \
+            platforms/ios/EVidya.xcodeproj/project.pbxproj | head -5
+
+      # KEY CHANGE: bypass Ionic/Cordova CLI entirely, call xcodebuild directly
+      - name: Build iOS Project (Debug)
+        run: |
+          cd platforms/ios
+          xcodebuild \
+            -workspace EVidya.xcworkspace \
+            -scheme EVidya \
+            -configuration Debug \
+            -destination generic/platform=iOS \
+            -derivedDataPath build \
             CODE_SIGN_IDENTITY="" \
             CODE_SIGNING_REQUIRED=NO \
             CODE_SIGNING_ALLOWED=NO \
-            DEVELOPMENT_TEAM="" \
+            DEVELOPMENT_TEAM=${{ secrets.APPLE_TEAM_ID }} \
             CODE_SIGN_ENTITLEMENTS="" \
-            PROVISIONING_PROFILE=""
+            PROVISIONING_PROFILE="" \
+            build
 
-      - name: Package Unsigned IPA
+      - name: Package IPA
         working-directory: platforms/ios
         run: |
-          APP_PATH=$(find . -name "*.app" -not -path "*/Simulator/*" | head -1)
+          # xcodebuild output goes to derivedDataPath/Build/Products/
+          APP_PATH=$(find build -name "*.app" \
+            -not -path "*/Simulator/*" \
+            -not -path "*/simulator/*" | head -1)
 
           if [ -z "$APP_PATH" ]; then
-            echo "No .app found in build output, checking archive..."
-            APP_PATH=$(find EVidya.xcarchive -name "*.app" | head -1)
+            echo "ERROR: No .app found. Listing for debug:"
+            find build -name "*.app" | head -20
+            exit 1
           fi
 
-          echo "Using app at: $APP_PATH"
+          echo "Found app at: $APP_PATH"
           mkdir -p Payload
           cp -r "$APP_PATH" Payload/
           zip -r EVidyaIos.ipa Payload/
@@ -125,5 +153,6 @@ jobs:
       - name: Upload IPA Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: ios-unsigned-ipa
+          name: ios-debug-ipa
           path: EVidyaIos.ipa
+          retention-days: 7
