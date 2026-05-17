@@ -1,0 +1,366 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - generic [ref=e4]:
+      - generic [ref=e7]:
+        - link "EduRev" [ref=e10] [cursor=pointer]:
+          - /url: /home
+          - generic [ref=e12]: EduRev
+        - generic [ref=e15]:
+          - link "Sign in" [ref=e16] [cursor=pointer]:
+            - /url: "#myModalRegister"
+          - link "Open App" [ref=e17] [cursor=pointer]:
+            - /url: javascript:void(0)
+      - generic [ref=e21]:
+        - generic [ref=e24]:
+          - generic [ref=e25]:
+            - link "CBSE Class 10" [ref=e26] [cursor=pointer]:
+              - /url: https://edurev.in/explore/27/Class-10
+            - text: ">"
+          - generic [ref=e27]:
+            - link "Class 10" [ref=e28] [cursor=pointer]:
+              - /url: ""
+            - text: ">"
+          - generic [ref=e29]:
+            - link "Science" [ref=e30] [cursor=pointer]:
+              - /url: https://edurev.in/courses/614_Science-Class-10
+            - text: ">"
+          - text: "Flashcards: Types of Chemical Reactions"
+        - generic [ref=e32]:
+          - generic [ref=e36]:
+            - generic [ref=e39]:
+              - table [ref=e40]:
+                - rowgroup [ref=e41]:
+                  - row "Types of Chemical Reactions 14 Flashcards" [ref=e42]:
+                    - cell "Types of Chemical Reactions 14 Flashcards" [ref=e43]:
+                      - generic [ref=e49]:
+                        - img [ref=e51]
+                        - generic [ref=e52]:
+                          - generic [ref=e53]: Types of Chemical Reactions
+                          - generic [ref=e54]: 14 Flashcards
+              - generic [ref=e58]:
+                - link [ref=e59] [cursor=pointer]:
+                  - /url: javascript:void(0)
+                  - img [ref=e307]
+                - generic [ref=e60]: Start
+            - table [ref=e62]:
+              - rowgroup [ref=e63]:
+                - 'row "Flashcards: Types of Chemical Reactions 14 Flashcards" [ref=e64]':
+                  - 'cell "Flashcards: Types of Chemical Reactions 14 Flashcards" [ref=e65]':
+                    - 'heading "Flashcards: Types of Chemical Reactions" [level=1] [ref=e66]'
+                    - generic [ref=e67]: 14 Flashcards
+                  - cell [ref=e68]:
+                    - img [ref=e308] [cursor=pointer]
+          - generic [ref=e73]:
+            - table [ref=e74]:
+              - rowgroup [ref=e75]:
+                - row "Science Class 10" [ref=e76]:
+                  - cell [ref=e77]:
+                    - link [ref=e79] [cursor=pointer]:
+                      - /url: https://edurev.in/courses/614_Science-Class-10
+                  - cell "Science Class 10" [ref=e81]:
+                    - heading "Science Class 10" [level=2] [ref=e83]:
+                      - link "Science Class 10" [ref=e84] [cursor=pointer]:
+                        - /url: https://edurev.in/courses/614_Science-Class-10
+            - link "Join Course for Free" [ref=e86] [cursor=pointer]:
+              - /url: https://edurev.in/courses/614_Science-Class-10
+          - generic [ref=e310]:
+            - generic [ref=e311]: Best Study Material for Class 10 Exam
+            - generic [ref=e312]:
+              - link "Science Class 10" [ref=e315] [cursor=pointer]:
+                - /url: /courses/614_Class-10-Science-NCERT-Solutions-MCQs-Videos-2026-2027
+                - table [ref=e316]:
+                  - rowgroup [ref=e317]:
+                    - row "Science Class 10" [ref=e318]:
+                      - cell [ref=e319]:
+                        - img [ref=e320]
+                      - cell "Science Class 10" [ref=e321]:
+                        - generic [ref=e322]: Science Class 10
+                      - cell [ref=e323]:
+                        - img [ref=e324]
+              - link "Mathematics (Maths) Class 10" [ref=e327] [cursor=pointer]:
+                - /url: /courses/643_Class-10-Maths-NCERT-Solutions-MCQs-Videos-2026-2027
+                - table [ref=e328]:
+                  - rowgroup [ref=e329]:
+                    - row "Mathematics (Maths) Class 10" [ref=e330]:
+                      - cell [ref=e331]:
+                        - img [ref=e332]
+                      - cell "Mathematics (Maths) Class 10" [ref=e333]:
+                        - generic [ref=e334]: Mathematics (Maths) Class 10
+                      - cell [ref=e335]:
+                        - img [ref=e336]
+              - link "Explore all Class 10 courses" [ref=e339] [cursor=pointer]:
+                - /url: /explore/27/Class-10
+                - table [ref=e340]:
+                  - rowgroup [ref=e341]:
+                    - row "Explore all Class 10 courses" [ref=e342]:
+                      - cell "Explore all Class 10 courses" [ref=e343]:
+                        - generic [ref=e344]:
+                          - generic [ref=e345]:
+                            - text: Explore
+                            - generic [ref=e346]: all Class 10
+                            - text: courses
+                          - img [ref=e347]
+          - generic [ref=e88]:
+            - 'heading "FAQs on Flashcards: Types of Chemical Reactions" [level=2] [ref=e89]'
+            - generic [ref=e90]:
+              - table [ref=e92] [cursor=pointer]:
+                - rowgroup [ref=e93]:
+                  - row "1. What are the main types of chemical reactions for Class 10 CBSE exams?" [ref=e94]:
+                    - cell "1. What are the main types of chemical reactions for Class 10 CBSE exams?" [ref=e95]
+                    - cell [ref=e96]:
+                      - img [ref=e348]
+              - generic [ref=e97]: Ans. The four primary types of chemical reactions are combination, decomposition, displacement, and double displacement reactions. Combination reactions involve two or more substances merging into one product. Decomposition breaks one compound into multiple simpler substances. Displacement occurs when one element replaces another in a compound. Double displacement involves exchanging ions between two compounds, forming new products. Understanding these classifications helps students identify reaction patterns and predict products in CBSE board exams.
+            - table [ref=e100] [cursor=pointer]:
+              - rowgroup [ref=e101]:
+                - row "2. How do I identify whether a reaction is a combination or decomposition reaction?" [ref=e102]:
+                  - cell "2. How do I identify whether a reaction is a combination or decomposition reaction?" [ref=e103]
+                  - cell [ref=e104]:
+                    - img [ref=e349]
+            - table [ref=e107] [cursor=pointer]:
+              - rowgroup [ref=e108]:
+                - row "3. What's the difference between single displacement and double displacement reactions?" [ref=e109]:
+                  - cell "3. What's the difference between single displacement and double displacement reactions?" [ref=e110]
+                  - cell [ref=e111]:
+                    - img [ref=e350]
+            - table [ref=e114] [cursor=pointer]:
+              - rowgroup [ref=e115]:
+                - row "4. Why do some chemical reactions release heat while others absorb it?" [ref=e116]:
+                  - cell "4. Why do some chemical reactions release heat while others absorb it?" [ref=e117]
+                  - cell [ref=e118]:
+                    - img [ref=e351]
+            - table [ref=e121] [cursor=pointer]:
+              - rowgroup [ref=e122]:
+                - row "5. How can flashcards help me master chemical reaction types faster?" [ref=e123]:
+                  - cell "5. How can flashcards help me master chemical reaction types faster?" [ref=e124]
+                  - cell [ref=e125]:
+                    - img [ref=e352]
+        - generic [ref=e149]:
+          - generic [ref=e150]: Related Searches
+          - generic [ref=e151]: "Viva Questions, Important questions, mock tests for examination, past year papers, Exam, Semester Notes, pdf , Sample Paper, Objective type Questions, study material, Flashcards: Types of Chemical Reactions, MCQs, Summary, shortcuts and tricks, practice quizzes, Extra Questions, Flashcards: Types of Chemical Reactions, ppt, Previous Year Questions with Solutions, video lectures, Free, Flashcards: Types of Chemical Reactions;"
+    - generic [ref=e152]:
+      - contentinfo [ref=e153]:
+        - generic [ref=e156]:
+          - generic [ref=e159]:
+            - heading "Must-Read Topics" [level=4] [ref=e160]
+            - list [ref=e161]:
+              - listitem [ref=e162]:
+                - text: ￭
+                - link "CBSE Class 10 Worksheets" [ref=e163] [cursor=pointer]:
+                  - /url: https://edurev.in/t/503792/cbse-class-10-worksheets-with-worksheet-solutions
+              - listitem [ref=e164]:
+                - text: ￭
+                - link "CBSE Class 10 PPTs" [ref=e165] [cursor=pointer]:
+                  - /url: https://edurev.in/t/503790/cbse-class-10-ppts
+              - listitem [ref=e166]:
+                - text: ￭
+                - link "Class 10 NCERT Solutions" [ref=e167] [cursor=pointer]:
+                  - /url: https://edurev.in/t/503791/cbse-class-10-ncert-solutions
+              - listitem [ref=e168]:
+                - text: ￭
+                - link "Class 10 NCERT Books" [ref=e169] [cursor=pointer]:
+                  - /url: https://edurev.in/t/503789/cbse-class-10-ncert-books
+              - listitem [ref=e170]:
+                - text: ￭
+                - link "Class 10 Important Qs" [ref=e171] [cursor=pointer]:
+                  - /url: https://edurev.in/t/505411/cbse-class-10-important-questions
+              - listitem [ref=e172]:
+                - text: ￭
+                - link "Class 10 Revision Notes" [ref=e173] [cursor=pointer]:
+                  - /url: https://edurev.in/t/508503/cbse-class-10-notes
+              - listitem [ref=e174]:
+                - text: ￭
+                - link "Class 10 Sample Papers" [ref=e175] [cursor=pointer]:
+                  - /url: https://edurev.in/t/505618/cbse-sample-papers-for-class-10
+              - listitem [ref=e176]:
+                - text: ￭
+                - link "Class 10 MCQs Solutions" [ref=e177] [cursor=pointer]:
+                  - /url: https://edurev.in/t/510169/cbse-class-10-mcqs-solutions
+              - listitem [ref=e178]:
+                - text: ￭
+                - link "Class 10 Chapter-wise PYQs" [ref=e179] [cursor=pointer]:
+                  - /url: https://edurev.in/t/505714/cbse-class-10-previous-year-question-papers-chapter-wise-pyqs
+              - listitem [ref=e180]:
+                - text: ￭
+                - link "Class 10 PYQs Papers" [ref=e181] [cursor=pointer]:
+                  - /url: https://edurev.in/t/505752/cbse-class-10-previous-year-question-papers-pyq
+              - listitem [ref=e182]:
+                - text: ￭
+                - link "Class 10 Chapter-wise PYQs" [ref=e183] [cursor=pointer]:
+                  - /url: https://edurev.in/t/507415/cbse-class-10-previous-year-question-answer-chapter-wise-pyqs
+              - listitem [ref=e184]:
+                - text: ￭
+                - link "Class 10 Mind Maps" [ref=e185] [cursor=pointer]:
+                  - /url: https://edurev.in/t/513782/cbse-class-10-mind-maps-all-subjects
+          - generic [ref=e188]:
+            - heading "Main Subjects" [level=4] [ref=e189]
+            - list [ref=e190]:
+              - listitem [ref=e191]:
+                - text: ￭
+                - link "Science Class 10" [ref=e192] [cursor=pointer]:
+                  - /url: /courses/614_Science-Class-10
+              - listitem [ref=e193]:
+                - text: ￭
+                - link "Mathematics (Maths) Class 10" [ref=e194] [cursor=pointer]:
+                  - /url: /courses/643_Mathematics-Maths-Class-10
+              - listitem [ref=e195]:
+                - text: ￭
+                - link "Social Studies (SST) Class 10" [ref=e196] [cursor=pointer]:
+                  - /url: /courses/2353_Social-Studies-SST-Class-10
+              - listitem [ref=e197]:
+                - text: ￭
+                - link "English Class 10" [ref=e198] [cursor=pointer]:
+                  - /url: /courses/3099_English-Class-10
+              - listitem [ref=e199]:
+                - text: ￭
+                - link "English Grammar Advanced" [ref=e200] [cursor=pointer]:
+                  - /url: /courses/22015_English-Grammar-Advanced
+              - listitem [ref=e201]:
+                - text: ￭
+                - link "Hindi Class 10" [ref=e202] [cursor=pointer]:
+                  - /url: /courses/3373_Hindi-Class-10
+              - listitem [ref=e203]:
+                - text: ￭
+                - link "English Grammar Basic" [ref=e204] [cursor=pointer]:
+                  - /url: /courses/14748_English-Grammar-Basic
+          - generic [ref=e207]:
+            - heading "Practice" [level=4] [ref=e208]
+            - list [ref=e209]:
+              - listitem [ref=e210]:
+                - text: ￭
+                - link "Past Year Papers for Class 10" [ref=e211] [cursor=pointer]:
+                  - /url: /courses/16540_Past-Year-Papers-for-Class-10
+              - listitem [ref=e212]:
+                - text: ￭
+                - link "Practice Questions with Solutions for Class 10" [ref=e213] [cursor=pointer]:
+                  - /url: /courses/65376_Practice-Questions-with-Solutions-for-Class-10
+              - listitem [ref=e214]:
+                - text: ￭
+                - 'link "Improve Your Calculations: Vedic Maths (English)" [ref=e215] [cursor=pointer]':
+                  - /url: /courses/62007_Improve-Your-Calculations-Vedic-Maths-English-
+              - listitem [ref=e216]:
+                - text: ￭
+                - link "CBSE Sample Papers For Class 10" [ref=e217] [cursor=pointer]:
+                  - /url: /courses/16494_CBSE-Sample-Papers-For-Class-10
+              - listitem [ref=e218]:
+                - text: ￭
+                - link "Worksheets with Solutions for Class 10" [ref=e219] [cursor=pointer]:
+                  - /url: /courses/65292_Worksheets-with-Solutions-for-Class-10
+              - listitem [ref=e220]:
+                - text: ￭
+                - link "Online MCQ Tests for Class 10" [ref=e221] [cursor=pointer]:
+                  - /url: /courses/28113_Online-MCQ-Tests-for-Class-10
+              - listitem [ref=e222]:
+                - text: ￭
+                - link "Unit Tests for Class 10" [ref=e223] [cursor=pointer]:
+                  - /url: /courses/127293_Unit-Tests-for-Class-10
+              - listitem [ref=e224]:
+                - text: ￭
+                - link "हिंदी व्याकरण" [ref=e225] [cursor=pointer]:
+                  - /url: /courses/15310_हिंदी-व्याकरण
+              - listitem [ref=e226]:
+                - text: ￭
+                - link "NCERT Textbooks & Solutions for Class 10" [ref=e227] [cursor=pointer]:
+                  - /url: /courses/28090_NCERT-Textbooks-Solutions-for-Class-10
+              - listitem [ref=e228]:
+                - text: ￭
+                - 'link "Lakhmir Singh & Manjit Kaur Solutions: Class 10 Science" [ref=e229] [cursor=pointer]':
+                  - /url: /courses/13986_Lakhmir-Singh-Manjit-Kaur-Solutions-Class-10-Science
+          - generic [ref=e232]:
+            - heading "Revision" [level=4] [ref=e233]
+            - list [ref=e234]:
+              - listitem [ref=e235]:
+                - text: ￭
+                - link "Chapter Notes for Class 10" [ref=e236] [cursor=pointer]:
+                  - /url: /courses/28418_Chapter-Notes-for-Class-10
+              - listitem [ref=e237]:
+                - text: ￭
+                - link "6 Months Boards Preparation for Class 10 (CBSE)" [ref=e238] [cursor=pointer]:
+                  - /url: /courses/124476_6-Months-Boards-Preparation-for-Class-10-CBSE-
+              - listitem [ref=e239]:
+                - text: ￭
+                - 'link "Crash Course: Class 10" [ref=e240] [cursor=pointer]':
+                  - /url: /courses/29492_Crash-Course-Class-10
+              - listitem [ref=e241]:
+                - text: ￭
+                - link "PPTs for Class 10" [ref=e242] [cursor=pointer]:
+                  - /url: /courses/65161_PPTs-for-Class-10
+              - listitem [ref=e243]:
+                - text: ￭
+                - link "Mind Maps for Class 10" [ref=e244] [cursor=pointer]:
+                  - /url: /courses/22923_Mind-Maps-for-Class-10
+              - listitem [ref=e245]:
+                - text: ￭
+                - link "Revision Resources for Class 10" [ref=e246] [cursor=pointer]:
+                  - /url: /courses/113487_Revision-Resources-for-Class-10
+              - listitem [ref=e247]:
+                - text: ￭
+                - link "Mnemonics for Class 10" [ref=e248] [cursor=pointer]:
+                  - /url: /courses/121791_Mnemonics-for-Class-10
+              - listitem [ref=e249]:
+                - text: ￭
+                - 'link "Mathematics Chart book: Revision guide" [ref=e250] [cursor=pointer]':
+                  - /url: /courses/12204_Mathematics-Chart-book-Revision-guide
+              - listitem [ref=e251]:
+                - text: ￭
+                - link "Flashcards for Class 10" [ref=e252] [cursor=pointer]:
+                  - /url: /courses/108039_Flashcards-for-Class-10
+          - generic [ref=e255]:
+            - heading "Skill Building" [level=4] [ref=e256]
+            - list [ref=e257]:
+              - listitem [ref=e258]:
+                - text: ￭
+                - 'link "Improve Your Calculations: Vedic Maths (English)" [ref=e259] [cursor=pointer]':
+                  - /url: /courses/62007_Improve-Your-Calculations-Vedic-Maths-English-
+              - listitem [ref=e260]:
+                - text: ￭
+                - link "Cursive Writing Course-Improve Your Handwriting" [ref=e261] [cursor=pointer]:
+                  - /url: /courses/62633_Cursive-Writing-Course-Improve-Your-Handwriting
+              - listitem [ref=e262]:
+                - text: ￭
+                - link "Mental Maths" [ref=e263] [cursor=pointer]:
+                  - /url: /courses/27298_Mental-Maths
+              - listitem [ref=e264]:
+                - text: ￭
+                - 'link "Calligraphy Course: Beginner to Advanced" [ref=e265] [cursor=pointer]':
+                  - /url: /courses/62648_Calligraphy-Course-Beginner-to-Advanced
+              - listitem [ref=e266]:
+                - text: ￭
+                - 'link "ChatGPT for Everything: How to Use ChatGPT?" [ref=e267] [cursor=pointer]':
+                  - /url: /courses/61960_ChatGPT-for-Everything-How-to-Use-ChatGPT-
+              - listitem [ref=e268]:
+                - text: ￭
+                - link "Canva for Beginners" [ref=e269] [cursor=pointer]:
+                  - /url: /courses/30002_Canva-for-Beginners
+              - listitem [ref=e270]:
+                - text: ￭
+                - link "Exploring the World of Harry Potter" [ref=e271] [cursor=pointer]:
+                  - /url: /courses/142162_Exploring-the-World-of-Harry-Potter
+              - listitem [ref=e272]:
+                - text: ￭
+                - link "How to become an Expert of MS Excel" [ref=e273] [cursor=pointer]:
+                  - /url: /courses/26963_How-to-become-an-Expert-of-MS-Excel
+              - listitem [ref=e274]:
+                - text: ￭
+                - link "Daily GK & Current Affairs Tests" [ref=e275] [cursor=pointer]:
+                  - /url: /courses/25825_Daily-GK-Current-Affairs-Tests
+              - listitem [ref=e276]:
+                - text: ￭
+                - link "Core Skills" [ref=e277] [cursor=pointer]:
+                  - /url: /courses/30105_Core-Skills
+      - generic [ref=e280]:
+        - 'heading "Study Flashcards: Types of Chemical Reactions on the App" [level=2] [ref=e281]'
+        - generic [ref=e282]: "Students of Class 10 can study Flashcards: Types of Chemical Reactions alongwith tests & analysis from the EduRev app, which will help them while preparing for their exam. Apart from the Flashcards: Types of Chemical Reactions, students can also utilize the EduRev App for other study materials such as previous year question papers, syllabus, important questions, etc. The EduRev App will make your learning easier as you can access it from anywhere you want. The content of Flashcards: Types of Chemical Reactions is prepared as per the latest Class 10 syllabus."
+      - table [ref=e287]:
+        - rowgroup [ref=e288]:
+          - row "© EduRev" [ref=e289]:
+            - cell "© EduRev" [ref=e290]:
+              - generic [ref=e292]: © EduRev
+            - cell [ref=e293]:
+              - generic [ref=e295]:
+                - link [ref=e297] [cursor=pointer]:
+                  - /url: /android-download?t=https%3A%2F%2Fplay.google.com%2Fstore%2Fapps%2Fdetails%3Fid%3Dcom.edurev%26referrer%3Dhttp%253A%252F%252Fedurev.in%253Futm_source%253DLandingPage%2526utm_campaign%253DLanding_page_Google_Play_btn_crcl_1%2526utm_medium%253Dedurev_website
+                  - img [ref=e298]
+                - link [ref=e300] [cursor=pointer]:
+                  - /url: /ios-download?t=https%3A%2F%2Fapps.apple.com%2Ftt%2Fapp%2Fedurev%2Fid1529835494
+                  - img [ref=e301]
+  - img [ref=e305]

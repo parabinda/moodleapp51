@@ -1,0 +1,47 @@
+.addon-mod-flashcards {
+    max-width: 760px;
+    margin: 0 auto;
+}
+
+.addon-mod-flashcards-counter {
+    margin: 0 0 12px;
+    color: var(--ion-color-medium-shade);
+    font-weight: 600;
+    text-align: center;
+}
+
+.addon-mod-flashcards-stage {
+    display: flex;
+    min-height: 320px;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    border: 1px solid var(--stroke);
+    border-radius: 8px;
+    background: var(--ion-background-color);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, .08);
+}
+
+.addon-mod-flashcards-stage img {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
+.addon-mod-flashcards-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+    margin-top: 16px;
+}
+
+@media (max-width: 576px) {
+    .addon-mod-flashcards-stage {
+        min-height: 240px;
+    }
+
+    .addon-mod-flashcards-actions ion-button {
+        flex: 1 1 auto;
+    }
+}

@@ -1,0 +1,44 @@
+name: Build Unsigned Ionic Cordova IPA
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: macos-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Install Ionic and Cordova
+        run: npm install -g @ionic/cli cordova
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Add iOS Platform
+        run: ionic cordova platform add ios@7.1.1
+
+      - name: Build iOS Project (Unsigned)
+        # We skip code signing here to build on GitHub without a paid account
+        run: |
+          ionic cordova build ios --release -- --CODE_SIGN_IDENTITY="" --CODE_SIGNING_REQUIRED=NO --CODE_SIGNING_ALLOWED=NO
+
+      - name: Package Unsigned IPA
+        # IPA is just a renamed zip of the 'Payload' folder containing the .app
+        run: |
+          mkdir -p Payload
+          cp -r platforms/ios/build/device/*.app Payload/
+          zip -r EVidyaIos.ipa Payload
+
+      - name: Upload IPA Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ios-unsigned-ipa
+          path: EVidyaIos.ipa

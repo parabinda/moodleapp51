@@ -1,0 +1,7 @@
+{
+    "cardcounter": "Card {{$a.current}} of {{$a.total}}",
+    "errorwhileloadingthedeck": "Error loading the flashcard deck.",
+    "nocards": "This deck has no cards yet.",
+    "showanswer": "Show answer",
+    "showquestion": "Show question"
+}
