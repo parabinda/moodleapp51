@@ -21,6 +21,7 @@ import { AddonModChatModule } from './chat/chat.module';
 import { AddonModChoiceModule } from './choice/choice.module';
 import { AddonModDataModule } from './data/data.module';
 import { AddonModFeedbackModule } from './feedback/feedback.module';
+import { AddonModChallengeLearningModule } from './challengelearning/challengelearning.module';
 import { AddonModFlashcardsModule } from './flashcards/flashcards.module';
 import { AddonModFolderModule } from './folder/folder.module';
 import { AddonModForumModule } from './forum/forum.module';
@@ -50,6 +51,7 @@ import { AddonModWorkshopModule } from './workshop/workshop.module';
         AddonModChoiceModule,
         AddonModDataModule,
         AddonModFeedbackModule,
+        AddonModChallengeLearningModule,
         AddonModFlashcardsModule,
         AddonModFolderModule,
         AddonModForumModule,

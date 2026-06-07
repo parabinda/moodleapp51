@@ -1,0 +1,9 @@
+import { CORE_COURSE_MODULE_FEATURE_PREFIX } from '@features/course/constants';
+
+export const ADDON_MOD_CHALLENGELEARNING_COMPONENT = 'AddonModChallengeLearning';
+export const ADDON_MOD_CHALLENGELEARNING_COMPONENT_LEGACY = 'mmaModChallengeLearning';
+export const ADDON_MOD_CHALLENGELEARNING_PAGE_NAME = 'mod_challengelearning';
+export const ADDON_MOD_CHALLENGELEARNING_MODNAME = 'challengelearning';
+
+export const ADDON_MOD_CHALLENGELEARNING_FEATURE_NAME =
+    CORE_COURSE_MODULE_FEATURE_PREFIX + ADDON_MOD_CHALLENGELEARNING_COMPONENT;
