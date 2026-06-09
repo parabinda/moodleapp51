@@ -5,49 +5,141 @@
         </ion-button>
     } @else {
         <core-context-menu>
-            <core-context-menu-item [priority]="5000" [content]="'core.info' | translate" (action)="openModuleSummary()"
-                iconAction="fas-circle-info" />
+            <core-context-menu-item [priority]="5000" [content]="'core.info' | translate"
+                (action)="openModuleSummary()" iconAction="fas-circle-info" />
         </core-context-menu>
     }
 </core-navbar-buttons>
 
 <core-loading [hideUntil]="!showLoading">
-    <core-course-module-info [module]="module" [description]="description" [component]="component" [componentId]="componentId"
-        [courseId]="courseId" (completionChanged)="onCompletionChange()" />
 
-    <div class="addon-mod-flashcards ion-padding">
-        @if (cards.length && currentCard; as card) {
-            @if (flashcards?.showprogress) {
-                <p class="addon-mod-flashcards-counter">
-                    {{ 'addon.mod_flashcards.cardcounter' | translate: { $a: { current: currentIndex + 1, total: cards.length } } }}
+    <!-- ═══════════════ INTRO ═══════════════ -->
+    @if (view === 'intro') {
+        <div class="fc-intro ion-padding">
+
+            <div class="fc-intro-thumb">
+                @if (deck?.thumbnailurl) {
+                    <img [url]="deck!.thumbnailurl!" [alt]="deck!.name" core-external-content />
+                } @else {
+                    <ion-icon name="fas-layer-group" class="fc-thumb-placeholder" aria-hidden="true" />
+                }
+            </div>
+
+            <h2 class="fc-intro-title">
+                <core-format-text [text]="deck?.name || module.name" contextLevel="module"
+                    [contextInstanceId]="module.id" [courseId]="courseId" />
+            </h2>
+
+            <div class="fc-intro-count">
+                <ion-icon name="fas-clone" aria-hidden="true" />
+                {{ 'addon.mod_flashcards.flashcards_count' | translate: { $a: cards.length } }}
+            </div>
+
+            @if (cards.length) {
+                <ion-button expand="block" class="fc-start-btn" (click)="startLearning()">
+                    {{ 'addon.mod_flashcards.start_learning' | translate }}
+                </ion-button>
+            } @else {
+                <core-empty-box icon="far-note-sticky"
+                    [message]="'addon.mod_flashcards.nocards' | translate" />
+            }
+        </div>
+    }
+
+    <!-- ═══════════════ STUDY ═══════════════ -->
+    @if (view === 'study' && currentCard; as card) {
+
+        <!-- Progress bar -->
+        <div class="fc-progress-track" role="progressbar"
+            [attr.aria-valuenow]="currentIndex + 1" [attr.aria-valuemax]="cards.length">
+            <div class="fc-progress-fill" [style.width.%]="progressPercent"></div>
+        </div>
+
+        <div class="fc-study ion-padding">
+
+            <!-- 3-D flip card -->
+            <div class="fc-card-wrap" (click)="flipCard()" role="button"
+                [attr.aria-label]="'addon.mod_flashcards.tap_to_flip' | translate">
+                <div class="fc-card-inner" [class.fc-flipped]="flipped">
+
+                    <!-- Front face -->
+                    <div class="fc-card-face fc-card-front">
+                        <img [url]="card.frontimageurl" [alt]="card.alttext || deck?.name || ''"
+                            loading="eager" core-external-content />
+                    </div>
+
+                    <!-- Back face -->
+                    <div class="fc-card-face fc-card-back">
+                        @if (card.backimageurl) {
+                            <img [url]="card.backimageurl" [alt]="card.alttext || deck?.name || ''"
+                                loading="eager" core-external-content />
+                        } @else {
+                            <p class="fc-no-back">{{ 'addon.mod_flashcards.no_back' | translate }}</p>
+                        }
+                    </div>
+                </div>
+            </div>
+
+            @if (!flipped) {
+                <p class="fc-tap-hint">
+                    <ion-icon name="fas-hand-pointer" aria-hidden="true" />
+                    {{ 'addon.mod_flashcards.tap_to_flip' | translate }}
                 </p>
             }
 
-            <div class="addon-mod-flashcards-stage">
-                <img [url]="showingBack && card.backimageurl ? card.backimageurl : card.frontimageurl" [alt]="card.alttext || deck?.name"
-                    loading="eager" core-external-content />
-            </div>
-
-            <div class="addon-mod-flashcards-actions">
-                <ion-button fill="outline" (click)="previous()" [disabled]="previousDisabled">
-                    <ion-icon name="fas-chevron-left" slot="start" aria-hidden="true" />
-                    {{ 'core.previous' | translate }}
+            <!-- Bottom navigation -->
+            <div class="fc-nav">
+                <ion-button fill="clear" class="fc-nav-btn" (click)="previous()" [disabled]="previousDisabled"
+                    [attr.aria-label]="'core.previous' | translate">
+                    <ion-icon name="fas-chevron-left" slot="icon-only" aria-hidden="true" />
                 </ion-button>
 
-                <ion-button (click)="toggleAnswer()" [disabled]="!card.backimageurl">
-                    {{ (showingBack ? 'addon.mod_flashcards.showquestion' : 'addon.mod_flashcards.showanswer') | translate }}
-                </ion-button>
+                <span class="fc-counter">{{ currentIndex + 1 }} / {{ cards.length }}</span>
 
-                <ion-button fill="outline" (click)="next()" [disabled]="nextDisabled">
-                    {{ 'core.next' | translate }}
-                    <ion-icon name="fas-chevron-right" slot="end" aria-hidden="true" />
+                <ion-button fill="clear" class="fc-nav-btn fc-nav-next" (click)="next()"
+                    [attr.aria-label]="nextIsLast ? ('addon.mod_flashcards.session_complete' | translate) : ('core.next' | translate)">
+                    <ion-icon [name]="nextIsLast ? 'fas-flag-checkered' : 'fas-chevron-right'"
+                        slot="icon-only" aria-hidden="true" />
                 </ion-button>
             </div>
-        } @else {
-            <core-empty-box icon="far-note-sticky" [message]="'addon.mod_flashcards.nocards' | translate" />
-        }
-    </div>
+
+        </div>
+    }
+
+    <!-- ═══════════════ COMPLETE ═══════════════ -->
+    @if (view === 'complete') {
+        <div class="fc-complete ion-padding">
+
+            <div class="fc-complete-icon-wrap">
+                <ion-icon name="fas-circle-check" class="fc-complete-icon" aria-hidden="true" />
+            </div>
+
+            <h2 class="fc-complete-title">
+                {{ 'addon.mod_flashcards.session_complete' | translate }}
+            </h2>
+
+            <p class="fc-complete-subtitle">
+                {{ 'addon.mod_flashcards.cards_studied' | translate: { $a: viewedCardIds.size } }}
+            </p>
+
+            <div class="fc-complete-actions">
+                <ion-button expand="block" (click)="studyAgain()">
+                    <ion-icon name="fas-rotate-left" slot="start" aria-hidden="true" />
+                    {{ 'addon.mod_flashcards.study_again' | translate }}
+                </ion-button>
+
+                @if (hasPremiumCards) {
+                    <ion-button expand="block" fill="outline" class="fc-unlock-btn" (click)="unlockAll()">
+                        <ion-icon name="fas-lock-open" slot="start" aria-hidden="true" />
+                        {{ 'addon.mod_flashcards.unlock_all' | translate }}
+                    </ion-button>
+                }
+            </div>
+
+        </div>
+    }
+
 </core-loading>
 
-<core-course-module-navigation collapsible-footer appearOnBottom [hidden]="showLoading" [courseId]="courseId"
-    [currentModuleId]="module.id" />
+<core-course-module-navigation collapsible-footer appearOnBottom [hidden]="showLoading"
+    [courseId]="courseId" [currentModuleId]="module.id" />

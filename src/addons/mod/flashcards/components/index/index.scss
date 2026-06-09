@@ -1,47 +1,281 @@
-.addon-mod-flashcards {
-    max-width: 760px;
+// ── Shared ──────────────────────────────────────────────────────────────────
+
+.fc-intro,
+.fc-study,
+.fc-complete {
+    max-width: 680px;
     margin: 0 auto;
 }
 
-.addon-mod-flashcards-counter {
-    margin: 0 0 12px;
-    color: var(--ion-color-medium-shade);
-    font-weight: 600;
+// ── Progress bar ─────────────────────────────────────────────────────────────
+
+.fc-progress-track {
+    width: 100%;
+    height: 5px;
+    background: var(--ion-color-light-shade, #e0e0e0);
+    overflow: hidden;
+}
+
+.fc-progress-fill {
+    height: 100%;
+    background: var(--ion-color-primary);
+    transition: width 0.3s ease;
+    border-radius: 0 3px 3px 0;
+}
+
+// ── Intro ────────────────────────────────────────────────────────────────────
+
+.fc-intro {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 32px;
     text-align: center;
 }
 
-.addon-mod-flashcards-stage {
+.fc-intro-thumb {
+    width: 120px;
+    height: 120px;
+    border-radius: 16px;
+    overflow: hidden;
+    background: var(--ion-color-light);
     display: flex;
-    min-height: 320px;
     align-items: center;
     justify-content: center;
-    overflow: hidden;
-    border: 1px solid var(--stroke);
-    border-radius: 8px;
-    background: var(--ion-background-color);
-    box-shadow: 0 8px 24px rgba(0, 0, 0, .08);
+    margin-bottom: 24px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, .10);
+
+    img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
 }
 
-.addon-mod-flashcards-stage img {
-    display: block;
+.fc-thumb-placeholder {
+    font-size: 52px;
+    color: var(--ion-color-medium);
+}
+
+.fc-intro-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin: 0 0 12px;
+    color: var(--ion-text-color);
+}
+
+.fc-intro-count {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--ion-color-medium-shade);
+    background: var(--ion-color-light);
+    padding: 6px 16px;
+    border-radius: 20px;
+    margin-bottom: 36px;
+
+    ion-icon {
+        font-size: 1rem;
+        color: var(--ion-color-primary);
+    }
+}
+
+.fc-start-btn {
     width: 100%;
-    height: auto;
+    max-width: 320px;
+    --border-radius: 12px;
+    font-size: 1.05rem;
+    font-weight: 700;
+    height: 52px;
 }
 
-.addon-mod-flashcards-actions {
+// ── 3-D flip card ────────────────────────────────────────────────────────────
+
+.fc-study {
     display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    justify-content: center;
-    margin-top: 16px;
+    flex-direction: column;
+    gap: 16px;
 }
 
-@media (max-width: 576px) {
-    .addon-mod-flashcards-stage {
-        min-height: 240px;
+.fc-card-wrap {
+    perspective: 1200px;
+    cursor: pointer;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.fc-card-inner {
+    position: relative;
+    width: 100%;
+    height: min(420px, calc(100dvh - 230px));
+    transform-style: preserve-3d;
+    transition: transform 0.55s cubic-bezier(.4, 0, .2, 1);
+}
+
+.fc-card-inner.fc-flipped {
+    transform: rotateY(180deg);
+}
+
+.fc-card-face {
+    position: absolute;
+    inset: 0;
+    border-radius: 14px;
+    overflow: hidden;
+    background: var(--ion-background-color);
+    box-shadow: 0 6px 24px rgba(0, 0, 0, .12);
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        display: block;
+    }
+}
+
+.fc-card-back {
+    transform: rotateY(180deg);
+}
+
+.fc-no-back {
+    padding: 24px;
+    color: var(--ion-color-medium);
+    text-align: center;
+    font-size: 0.95rem;
+}
+
+.fc-tap-hint {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    margin: 0;
+    font-size: 0.85rem;
+    color: var(--ion-color-medium);
+
+    ion-icon {
+        font-size: 1rem;
+    }
+}
+
+// ── Bottom navigation ─────────────────────────────────────────────────────────
+
+.fc-nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 4px 0;
+}
+
+.fc-counter {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--ion-text-color);
+    letter-spacing: 0.02em;
+}
+
+.fc-nav-btn {
+    --padding-start: 12px;
+    --padding-end: 12px;
+    font-size: 1.3rem;
+    color: var(--ion-color-primary);
+}
+
+.fc-nav-next ion-icon {
+    font-size: 1.3rem;
+}
+
+// ── Complete ─────────────────────────────────────────────────────────────────
+
+.fc-complete {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 48px;
+    text-align: center;
+}
+
+.fc-complete-icon-wrap {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background: color-mix(in srgb, var(--ion-color-success) 15%, transparent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 24px;
+}
+
+.fc-complete-icon {
+    font-size: 56px;
+    color: var(--ion-color-success);
+}
+
+.fc-complete-title {
+    font-size: 1.6rem;
+    font-weight: 800;
+    margin: 0 0 8px;
+    color: var(--ion-text-color);
+}
+
+.fc-complete-subtitle {
+    font-size: 1rem;
+    color: var(--ion-color-medium-shade);
+    margin: 0 0 36px;
+}
+
+.fc-complete-actions {
+    width: 100%;
+    max-width: 320px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+
+    ion-button {
+        --border-radius: 12px;
+        height: 48px;
+        font-weight: 600;
+    }
+}
+
+.fc-unlock-btn {
+    --color: var(--ion-color-warning-shade);
+    --border-color: var(--ion-color-warning);
+}
+
+// ── Responsive ───────────────────────────────────────────────────────────────
+
+@media (max-height: 600px) {
+    .fc-card-inner {
+        height: 220px;
     }
 
-    .addon-mod-flashcards-actions ion-button {
-        flex: 1 1 auto;
+    .fc-intro {
+        padding-top: 16px;
+    }
+
+    .fc-intro-thumb {
+        width: 80px;
+        height: 80px;
+        margin-bottom: 16px;
+    }
+
+    .fc-complete {
+        padding-top: 24px;
+    }
+
+    .fc-complete-icon-wrap {
+        width: 72px;
+        height: 72px;
+    }
+
+    .fc-complete-icon {
+        font-size: 40px;
     }
 }

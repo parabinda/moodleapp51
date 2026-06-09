@@ -1,7 +1,15 @@
 {
     "cardcounter": "Card {{$a.current}} of {{$a.total}}",
+    "cards_studied": "{{$a}} cards studied",
     "errorwhileloadingthedeck": "Error loading the flashcard deck.",
+    "flashcards_count": "{{$a}} Flashcards",
+    "no_back": "No answer image available.",
     "nocards": "This deck has no cards yet.",
+    "session_complete": "Session Completed!",
     "showanswer": "Show answer",
-    "showquestion": "Show question"
+    "showquestion": "Show question",
+    "start_learning": "Begin Revision",
+    "study_again": "Study Again",
+    "tap_to_flip": "Tap card to reveal answer",
+    "unlock_all": "Unlock All Flashcards"
 }
