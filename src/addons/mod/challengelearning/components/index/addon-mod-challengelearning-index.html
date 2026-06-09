@@ -65,7 +65,7 @@
                         <div class="cyl-session-row">
                             <span class="cyl-session-num">#{{ s.num }}</span>
                             <span class="cyl-session-date">{{ formatDate(s.timecompleted) }}</span>
-                            <span class="cyl-session-score">{{ s.correct }} / {{ s.total }}</span>
+                            <span class="cyl-session-score">{{ s.questions_correct }} / {{ s.questions_total }}</span>
                             <span class="cyl-session-end">{{ s.score_end }}</span>
                             <span class="cyl-session-delta"
                                 [class.delta-up]="s.delta > 0"
