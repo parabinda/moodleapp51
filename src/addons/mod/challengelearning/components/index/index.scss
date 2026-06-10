@@ -38,9 +38,6 @@
 }
 
 .cyl-score-row {
-    display: flex;
-    align-items: baseline;
-    gap: 0.5rem;
     margin-bottom: 0.75rem;
 }
 
@@ -48,24 +45,6 @@
     font-size: 4rem;
     font-weight: 900;
     line-height: 1;
-}
-
-.cyl-score-right {
-    display: flex;
-    flex-direction: column;
-}
-
-.cyl-score-of {
-    font-size: 1rem;
-    color: var(--ion-color-medium);
-    font-weight: 700;
-}
-
-.cyl-score-label {
-    font-size: 0.75rem;
-    color: var(--ion-color-medium);
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
 }
 
 .cyl-bar-wrap {
@@ -96,7 +75,6 @@
 }
 
 .cyl-start-btn {
-    --background: linear-gradient(135deg, #6f42c1, #0d6efd);
     --border-radius: 30px;
     font-size: 1.05rem;
     font-weight: 700;
@@ -159,38 +137,24 @@
     margin: 0 auto;
 }
 
+// Score + progress panel
 .cyl-ss-panel {
     background: var(--ion-card-background, #fff);
     border: 1.5px solid var(--ion-color-light);
     border-radius: 12px;
-    padding: 0.75rem 1rem;
+    padding: 0.75rem 1rem 0.5rem;
     margin-bottom: 1rem;
 }
 
 .cyl-ss-header {
-    display: flex;
-    align-items: baseline;
-    gap: 0.5rem;
     margin-bottom: 0.4rem;
 }
 
 .cyl-ss-score {
-    font-size: 1.8rem;
+    font-size: 2rem;
     font-weight: 900;
     line-height: 1;
-}
-
-.cyl-ss-label {
-    font-size: 0.75rem;
-    color: var(--ion-color-medium);
-    text-transform: uppercase;
-}
-
-.cyl-q-counter {
-    margin-left: auto;
-    font-size: 0.85rem;
-    font-weight: 600;
-    color: var(--ion-color-medium);
+    color: var(--ion-color-primary);
 }
 
 .cyl-ss-track {
@@ -202,11 +166,34 @@
 
 .cyl-ss-fill {
     height: 100%;
-    background: linear-gradient(90deg, #dc3545, #fd7e14, #ffc107, #0d6efd, #f5a623);
+    background: var(--ion-color-primary);
     border-radius: 4px;
     transition: width 0.4s ease;
 }
 
+// Milestone tick marks below the progress bar
+.cyl-level-markers {
+    position: relative;
+    height: 14px;
+    margin-top: 2px;
+}
+
+.cyl-marker {
+    position: absolute;
+    top: 0;
+    transform: translateX(-50%);
+    width: 2px;
+    height: 8px;
+    background: var(--ion-color-light-shade);
+    border-radius: 1px;
+    transition: background 0.3s;
+
+    &.reached {
+        background: var(--ion-color-primary);
+    }
+}
+
+// Question card
 .cyl-question-card {
     background: var(--ion-card-background, #fff);
     border: 1.5px solid var(--ion-color-light);
@@ -226,7 +213,7 @@
 .cyl-answers {
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
+    gap: 0.6rem;
 }
 
 .cyl-answer-btn {
@@ -234,16 +221,23 @@
     background: var(--ion-color-light);
     border: 2px solid var(--ion-color-light-shade);
     border-radius: 10px;
-    padding: 0.85rem 1rem;
-    text-align: left;
+    padding: 0.9rem 1rem;
+    text-align: center;
     font-size: 0.95rem;
     cursor: pointer;
     transition: all 0.15s;
     color: var(--ion-text-color);
 
+    span {
+        display: block;
+        width: 100%;
+    }
+
     &.selected {
-        background: #e7f3ff;
-        border-color: #0d6efd;
+        background: rgba(var(--ion-color-primary-rgb, 255, 165, 0), 0.12);
+        border-color: var(--ion-color-primary);
+        color: var(--ion-color-primary-shade);
+        font-weight: 600;
     }
 
     &.correct {
@@ -265,10 +259,20 @@
     }
 }
 
+// Submit button
+.cyl-submit-btn {
+    --border-radius: 14px;
+    font-weight: 700;
+    font-size: 1rem;
+    height: 52px;
+    margin-top: 0.25rem;
+}
+
+// Ephemeral feedback panel
 .cyl-feedback {
     border-radius: 14px;
     padding: 1rem 1.25rem;
-    margin-top: 0.5rem;
+    margin-top: 0.75rem;
 
     &.feedback-correct {
         background: #d1e7dd;
@@ -281,47 +285,48 @@
     }
 }
 
-.cyl-fb-top {
+.cyl-fb-correct-row,
+.cyl-fb-wrong-row {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
-    margin-bottom: 0.4rem;
+    gap: 0.6rem;
 }
 
 .cyl-fb-icon {
-    font-size: 1.4rem;
+    font-size: 1.5rem;
+    flex-shrink: 0;
+
+    &.correct {
+        color: #198754;
+    }
+
+    &.wrong {
+        color: #dc3545;
+    }
+}
+
+.cyl-fb-phrase {
+    font-size: 1.2rem;
+    font-weight: 800;
+    color: #155724;
+    flex: 1;
 }
 
 .cyl-fb-msg {
     font-size: 1.1rem;
     font-weight: 800;
+    color: #721c24;
+    flex: 1;
 }
 
 .cyl-fb-delta {
-    margin-left: auto;
     font-size: 1rem;
     font-weight: 700;
-}
-
-.cyl-streak-msg {
-    font-size: 0.9rem;
-    font-weight: 600;
-    color: #fd7e14;
-    margin: 0.25rem 0;
-}
-
-.cyl-fb-solution {
-    background: rgba(255, 255, 255, 0.6);
-    border-radius: 8px;
-    padding: 0.6rem 0.85rem;
-    font-size: 0.88rem;
-    line-height: 1.55;
-    margin: 0.5rem 0;
+    margin-left: auto;
 }
 
 .cyl-next-btn {
     margin-top: 0.75rem;
-    --background: linear-gradient(135deg, #6f42c1, #0d6efd);
     --border-radius: 25px;
     font-weight: 700;
 }
@@ -357,20 +362,13 @@
     display: flex;
     align-items: baseline;
     justify-content: center;
-    gap: 0.4rem;
     margin-bottom: 0.25rem;
 }
 
 .cyl-results-num {
-    font-size: 3.5rem;
+    font-size: 4rem;
     font-weight: 900;
     line-height: 1;
-}
-
-.cyl-results-of {
-    font-size: 0.9rem;
-    color: var(--ion-color-medium);
-    font-weight: 600;
 }
 
 .cyl-results-level {
@@ -387,6 +385,12 @@
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
+
+    ion-button {
+        --border-radius: 14px;
+        height: 52px;
+        font-weight: 700;
+    }
 }
 
 // ── Shared ─────────────────────────────────────────────────────────────────

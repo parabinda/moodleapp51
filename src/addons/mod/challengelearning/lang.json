@@ -22,5 +22,6 @@
     "error_submitting": "Could not submit answer. Please try again.",
     "loading": "Loading...",
     "mastered": "Mastered!",
-    "streak_label": "{{streak}} in a row!"
+    "streak_label": "{{streak}} in a row!",
+    "submit": "Submit"
 }

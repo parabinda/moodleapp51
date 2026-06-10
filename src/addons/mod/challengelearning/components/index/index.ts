@@ -15,6 +15,8 @@ import { ADDON_MOD_CHALLENGELEARNING_COMPONENT_LEGACY } from '../../constants';
 
 type ViewState = 'dashboard' | 'challenge' | 'results';
 
+const CORRECT_PHRASES = ['Wonderful!', 'Fantastic!', 'Great job!', 'Well done!', 'Excellent!', 'Correct!'];
+
 @Component({
     selector: 'addon-mod-challengelearning-index',
     templateUrl: 'addon-mod-challengelearning-index.html',
@@ -32,27 +34,39 @@ export class AddonModChallengeLearningIndexComponent
     component = ADDON_MOD_CHALLENGELEARNING_COMPONENT_LEGACY;
     pluginName = 'challengelearning';
 
-    // View state
     view: ViewState = 'dashboard';
 
     // Dashboard data
     overview?: AddonModChallengeLearningOverview;
 
-    // Challenge data
+    // Challenge session data
     sessionId = 0;
     totalQuestions = 0;
     questionNumber = 0;
     currentQuestion?: AddonModChallengeLearningQuestion;
-    selectedAnswerId: number | null = null;
+    pendingAnswerId: number | null = null;    // highlighted before submit
+    selectedAnswerId: number | null = null;   // actually submitted
     submitting = false;
     answerResult?: AddonModChallengeLearningSubmitResult;
+    feedbackVisible = false;
+    feedbackPhraseIndex = 0;
 
     // Results data
     sessionCorrect = 0;
     sessionTotal = 0;
     finalAchievements: AddonModChallengeLearningAchievement[] = [];
 
+    // Level threshold markers shown on the progress bar
+    readonly levelMarkers = [
+        { threshold: 40 },
+        { threshold: 60 },
+        { threshold: 80 },
+        { threshold: 95 },
+    ];
+
     protected fetchContentDefaultError = 'addon.mod_challengelearning.error_loading';
+
+    private feedbackTimer?: ReturnType<typeof setTimeout>;
 
     async ngOnInit(): Promise<void> {
         super.ngOnInit();
@@ -77,7 +91,6 @@ export class AddonModChallengeLearningIndexComponent
         if (this.submitting) return;
         this.submitting = true;
         try {
-            // Invalidate overview cache so dashboard refreshes after session.
             await AddonModChallengeLearning.invalidateContent(
                 this.module.id, this.courseId, this.module.instance,
             );
@@ -86,8 +99,10 @@ export class AddonModChallengeLearningIndexComponent
             this.totalQuestions   = result.total_questions;
             this.questionNumber   = 1;
             this.currentQuestion  = result.question;
+            this.pendingAnswerId  = null;
             this.selectedAnswerId = null;
             this.answerResult     = undefined;
+            this.feedbackVisible  = false;
             this.view = 'challenge';
         } catch {
             // Error handled by parent class.
@@ -96,31 +111,53 @@ export class AddonModChallengeLearningIndexComponent
         }
     }
 
-    async selectAnswer(answerId: number): Promise<void> {
-        if (this.selectedAnswerId !== null || this.submitting || !this.currentQuestion) return;
+    /** Highlight a pending selection without submitting. */
+    selectPending(answerId: number): void {
+        if (this.answerResult || this.submitting) return;
+        this.pendingAnswerId = answerId;
+    }
 
-        this.selectedAnswerId = answerId;
+    /** Submit the pending selection to the server. */
+    async submitAnswer(): Promise<void> {
+        if (this.pendingAnswerId === null || this.submitting || !this.currentQuestion) return;
+
+        this.selectedAnswerId = this.pendingAnswerId;
         this.submitting = true;
         try {
             const result = await AddonModChallengeLearning.submitAnswer(
                 this.sessionId,
                 this.currentQuestion.id,
-                answerId,
+                this.selectedAnswerId,
             );
             this.answerResult = result;
+            this.feedbackPhraseIndex = Math.floor(Math.random() * CORRECT_PHRASES.length);
+            this.feedbackVisible = true;
+
             if (result.is_last) {
-                this.sessionCorrect       = result.session_correct;
-                this.sessionTotal         = result.session_total;
-                this.finalAchievements    = result.achievements ?? [];
+                this.sessionCorrect    = result.session_correct;
+                this.sessionTotal      = result.session_total;
+                this.finalAchievements = result.achievements ?? [];
+            }
+
+            // Auto-advance on correct after 1.5 s so feedback feels ephemeral.
+            if (result.is_correct) {
+                this.feedbackTimer = setTimeout(() => this.nextQuestion(), 1500);
             }
         } catch {
             this.selectedAnswerId = null;
+            this.pendingAnswerId = null;
         } finally {
             this.submitting = false;
         }
     }
 
     async nextQuestion(): Promise<void> {
+        if (this.feedbackTimer) {
+            clearTimeout(this.feedbackTimer);
+            this.feedbackTimer = undefined;
+        }
+        this.feedbackVisible = false;
+
         if (!this.answerResult) return;
 
         if (this.answerResult.is_last) {
@@ -129,6 +166,7 @@ export class AddonModChallengeLearningIndexComponent
         } else if (this.answerResult.next_question) {
             this.currentQuestion  = this.answerResult.next_question;
             this.questionNumber++;
+            this.pendingAnswerId  = null;
             this.selectedAnswerId = null;
             this.answerResult     = undefined;
         }
@@ -140,16 +178,18 @@ export class AddonModChallengeLearningIndexComponent
     }
 
     backToDashboard(): void {
+        if (this.feedbackTimer) {
+            clearTimeout(this.feedbackTimer);
+            this.feedbackTimer = undefined;
+        }
+        this.pendingAnswerId  = null;
         this.selectedAnswerId = null;
         this.answerResult     = undefined;
+        this.feedbackVisible  = false;
         this.view = 'dashboard';
     }
 
     // ── Helpers ─────────────────────────────────────────────────────────────
-
-    isSelected(answerId: number): boolean {
-        return this.selectedAnswerId === answerId;
-    }
 
     isCorrectAnswer(answerId: number): boolean {
         return !!this.answerResult && answerId === this.answerResult.correct_answer_id;
@@ -177,6 +217,10 @@ export class AddonModChallengeLearningIndexComponent
         if (!this.answerResult) return '';
         const d = this.answerResult.score_delta;
         return d > 0 ? `+${d.toFixed(1)}` : d.toFixed(1);
+    }
+
+    get correctFeedbackPhrase(): string {
+        return CORRECT_PHRASES[this.feedbackPhraseIndex];
     }
 
     formatDate(ts: number): string {

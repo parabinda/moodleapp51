@@ -15,24 +15,22 @@
 
     <!-- ═══════════════ INTRO ═══════════════ -->
     @if (view === 'intro') {
-        <div class="fc-intro ion-padding">
+        <div class="fc-intro">
 
-            <div class="fc-intro-thumb">
-                @if (deck?.thumbnailurl) {
-                    <img [url]="deck!.thumbnailurl!" [alt]="deck!.name" core-external-content />
-                } @else {
-                    <ion-icon name="fas-layer-group" class="fc-thumb-placeholder" aria-hidden="true" />
-                }
-            </div>
+            <div class="fc-intro-body">
+                <div class="fc-intro-icon-wrap">
+                    <ion-icon name="fas-layer-group" class="fc-intro-icon" aria-hidden="true" />
+                </div>
 
-            <h2 class="fc-intro-title">
-                <core-format-text [text]="deck?.name || module.name" contextLevel="module"
-                    [contextInstanceId]="module.id" [courseId]="courseId" />
-            </h2>
+                <h2 class="fc-intro-title">
+                    <core-format-text [text]="deck?.name || module.name" contextLevel="module"
+                        [contextInstanceId]="module.id" [courseId]="courseId" />
+                </h2>
 
-            <div class="fc-intro-count">
-                <ion-icon name="fas-clone" aria-hidden="true" />
-                {{ 'addon.mod_flashcards.flashcards_count' | translate: { $a: cards.length } }}
+                <div class="fc-intro-count">
+                    <ion-icon name="fas-clone" aria-hidden="true" />
+                    {{ 'addon.mod_flashcards.flashcards_count' | translate: { $a: cards.length } }}
+                </div>
             </div>
 
             @if (cards.length) {
@@ -55,7 +53,7 @@
             <div class="fc-progress-fill" [style.width.%]="progressPercent"></div>
         </div>
 
-        <div class="fc-study ion-padding">
+        <div class="fc-study">
 
             <!-- 3-D flip card -->
             <div class="fc-card-wrap" (click)="flipCard()" role="button"
@@ -108,19 +106,21 @@
 
     <!-- ═══════════════ COMPLETE ═══════════════ -->
     @if (view === 'complete') {
-        <div class="fc-complete ion-padding">
+        <div class="fc-complete">
 
-            <div class="fc-complete-icon-wrap">
-                <ion-icon name="fas-circle-check" class="fc-complete-icon" aria-hidden="true" />
+            <div class="fc-complete-body">
+                <div class="fc-complete-icon-wrap">
+                    <ion-icon name="fas-circle-check" class="fc-complete-icon" aria-hidden="true" />
+                </div>
+
+                <h2 class="fc-complete-title">
+                    {{ 'addon.mod_flashcards.session_complete' | translate }}
+                </h2>
+
+                <p class="fc-complete-subtitle">
+                    {{ 'addon.mod_flashcards.cards_studied' | translate: { $a: viewedCardIds.size } }}
+                </p>
             </div>
-
-            <h2 class="fc-complete-title">
-                {{ 'addon.mod_flashcards.session_complete' | translate }}
-            </h2>
-
-            <p class="fc-complete-subtitle">
-                {{ 'addon.mod_flashcards.cards_studied' | translate: { $a: viewedCardIds.size } }}
-            </p>
 
             <div class="fc-complete-actions">
                 <ion-button expand="block" (click)="studyAgain()">
@@ -141,5 +141,6 @@
 
 </core-loading>
 
-<core-course-module-navigation collapsible-footer appearOnBottom [hidden]="showLoading"
+<core-course-module-navigation collapsible-footer appearOnBottom
+    [hidden]="showLoading || view === 'study' || view === 'complete'"
     [courseId]="courseId" [currentModuleId]="module.id" />

@@ -31,10 +31,6 @@
                     <span class="cyl-score-num" [style.color]="overview.level_color">
                         {{ overview.smartscore | number:'1.0-0' }}
                     </span>
-                    <div class="cyl-score-right">
-                        <span class="cyl-score-of">/ 100</span>
-                        <span class="cyl-score-label">SmartScore</span>
-                    </div>
                 </div>
                 <div class="cyl-bar-wrap">
                     <div class="cyl-bar-fill" [style.width.%]="overview.smartscore" [style.background]="overview.level_color"></div>
@@ -87,19 +83,23 @@
     @if (view === 'challenge' && currentQuestion) {
         <div class="cyl-challenge ion-padding">
 
-            <!-- SmartScore bar -->
+            <!-- Score + progress bar (no "SmartScore" label, no question counter) -->
             <div class="cyl-ss-panel">
                 <div class="cyl-ss-header">
-                    <span class="cyl-ss-score" [style.color]="levelColorForScore(currentScore)">
+                    <span class="cyl-ss-score">
                         {{ currentScore | number:'1.0-0' }}
-                    </span>
-                    <span class="cyl-ss-label">SmartScore</span>
-                    <span class="cyl-q-counter">
-                        {{ 'addon.mod_challengelearning.question_of' | translate: { current: questionNumber, total: totalQuestions } }}
                     </span>
                 </div>
                 <div class="cyl-ss-track">
                     <div class="cyl-ss-fill" [style.width.%]="scoreBarWidth"></div>
+                </div>
+                <!-- Proficiency milestone ticks -->
+                <div class="cyl-level-markers">
+                    @for (m of levelMarkers; track m.threshold) {
+                        <div class="cyl-marker" [style.left.%]="m.threshold"
+                            [class.reached]="currentScore >= m.threshold">
+                        </div>
+                    }
                 </div>
             </div>
 
@@ -110,39 +110,47 @@
                 <div class="cyl-answers">
                     @for (answer of currentQuestion.answers; track answer.id) {
                         <button class="cyl-answer-btn"
+                            [class.selected]="pendingAnswerId === answer.id && !answerResult"
                             [class.correct]="isCorrectAnswer(answer.id)"
                             [class.wrong]="isWrongSelected(answer.id)"
-                            [class.selected]="isSelected(answer.id) && !answerResult"
-                            [disabled]="selectedAnswerId !== null || submitting"
-                            (click)="selectAnswer(answer.id)">
+                            [disabled]="!!answerResult || submitting"
+                            (click)="selectPending(answer.id)">
                             <span [innerHTML]="answer.text"></span>
                         </button>
                     }
                 </div>
             </div>
 
-            <!-- Feedback (shown after answer) -->
-            @if (answerResult) {
-                <div class="cyl-feedback" [class.feedback-correct]="answerResult.is_correct" [class.feedback-wrong]="!answerResult.is_correct">
-                    <div class="cyl-fb-top">
-                        <span class="cyl-fb-icon">{{ answerResult.is_correct ? '✅' : '❌' }}</span>
-                        <span class="cyl-fb-msg">{{ answerResult.is_correct ? ('addon.mod_challengelearning.correct' | translate) : ('addon.mod_challengelearning.incorrect' | translate) }}</span>
-                        <span class="cyl-fb-delta" [class.delta-up]="answerResult.score_delta > 0" [class.delta-down]="answerResult.score_delta < 0">
-                            {{ scoreChangeLabel }}
-                        </span>
-                    </div>
-                    @if (answerResult.new_streak >= 3) {
-                        <p class="cyl-streak-msg">🔥 {{ 'addon.mod_challengelearning.streak_label' | translate: { streak: answerResult.new_streak } }}</p>
+            <!-- Submit button: visible when a choice is pending and not yet scored -->
+            @if (!answerResult && pendingAnswerId !== null) {
+                <ion-button expand="block" class="cyl-submit-btn" (click)="submitAnswer()" [disabled]="submitting">
+                    @if (submitting) {
+                        <ion-spinner slot="start" />
                     }
-                    @if (answerResult.general_feedback) {
-                        <div class="cyl-fb-solution" [innerHTML]="answerResult.general_feedback"></div>
+                    {{ 'addon.mod_challengelearning.submit' | translate }}
+                </ion-button>
+            }
+
+            <!-- Ephemeral feedback panel -->
+            @if (answerResult && feedbackVisible) {
+                <div class="cyl-feedback" [class.feedback-correct]="answerResult.is_correct"
+                    [class.feedback-wrong]="!answerResult.is_correct">
+                    @if (answerResult.is_correct) {
+                        <div class="cyl-fb-correct-row">
+                            <ion-icon name="fas-circle-check" class="cyl-fb-icon correct" aria-hidden="true" />
+                            <span class="cyl-fb-phrase">{{ correctFeedbackPhrase }}</span>
+                            <span class="cyl-fb-delta delta-up">{{ scoreChangeLabel }}</span>
+                        </div>
+                    } @else {
+                        <div class="cyl-fb-wrong-row">
+                            <ion-icon name="fas-circle-xmark" class="cyl-fb-icon wrong" aria-hidden="true" />
+                            <span class="cyl-fb-msg">{{ 'addon.mod_challengelearning.incorrect' | translate }}</span>
+                            <span class="cyl-fb-delta delta-down">{{ scoreChangeLabel }}</span>
+                        </div>
+                        <ion-button expand="block" class="cyl-next-btn" (click)="nextQuestion()">
+                            {{ 'addon.mod_challengelearning.next_question' | translate }}
+                        </ion-button>
                     }
-                    @for (badge of answerResult.achievements; track badge.key) {
-                        <span class="cyl-badge-pill">{{ badge.icon }} {{ badge.label }}</span>
-                    }
-                    <ion-button expand="block" class="cyl-next-btn" (click)="nextQuestion()">
-                        {{ 'addon.mod_challengelearning.next_question' | translate }}
-                    </ion-button>
                 </div>
             }
         </div>
@@ -158,10 +166,9 @@
                     {{ sessionCorrect }} / {{ sessionTotal }} correct
                 </p>
 
-                <!-- Updated SmartScore -->
+                <!-- SmartScore: just show the number and level, no "/100" label -->
                 <div class="cyl-results-smartscore" [style.color]="overview.level_color">
                     <span class="cyl-results-num">{{ overview.smartscore | number:'1.0-0' }}</span>
-                    <span class="cyl-results-of">/ 100 SmartScore</span>
                 </div>
                 <div class="cyl-results-level">
                     {{ overview.level_icon }} {{ overview.level_name }}
@@ -190,5 +197,7 @@
 
 </core-loading>
 
-<core-course-module-navigation collapsible-footer appearOnBottom [hidden]="showLoading"
+<!-- Hide Moodle Prev/Next activity footer during challenge and results -->
+<core-course-module-navigation collapsible-footer appearOnBottom
+    [hidden]="showLoading || view === 'challenge' || view === 'results'"
     [courseId]="courseId" [currentModuleId]="module.id" />
