@@ -57,6 +57,7 @@
 
             <!-- 3-D flip card -->
             <div class="fc-card-wrap" (click)="flipCard()" role="button"
+                [style.aspect-ratio]="card.width && card.height ? card.width + ' / ' + card.height : null"
                 [attr.aria-label]="'addon.mod_flashcards.tap_to_flip' | translate">
                 <div class="fc-card-inner" [class.fc-flipped]="flipped">
 

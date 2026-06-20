@@ -259,6 +259,31 @@
     }
 }
 
+@media (max-width: 600px) {
+    .cyl-challenge {
+        width: 100%;
+        max-width: none;
+        padding-left: 8px;
+        padding-right: 8px;
+    }
+
+    .cyl-question-card {
+        margin-left: 0;
+        margin-right: 0;
+        padding: 1rem 8px;
+    }
+
+    .cyl-answers {
+        width: 100%;
+    }
+
+    .cyl-answer-btn {
+        min-height: 58px;
+        border-radius: 8px;
+        padding: 0.9rem 0.75rem;
+    }
+}
+
 // Submit button
 .cyl-submit-btn {
     --border-radius: 14px;

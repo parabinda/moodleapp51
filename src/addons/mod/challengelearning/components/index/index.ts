@@ -50,6 +50,7 @@ export class AddonModChallengeLearningIndexComponent
     answerResult?: AddonModChallengeLearningSubmitResult;
     feedbackVisible = false;
     feedbackPhraseIndex = 0;
+    sessionScore = 0;
 
     // Results data
     sessionCorrect = 0;
@@ -103,6 +104,7 @@ export class AddonModChallengeLearningIndexComponent
             this.selectedAnswerId = null;
             this.answerResult     = undefined;
             this.feedbackVisible  = false;
+            this.sessionScore     = this.overview?.smartscore ?? 0;
             this.view = 'challenge';
         } catch {
             // Error handled by parent class.
@@ -129,6 +131,7 @@ export class AddonModChallengeLearningIndexComponent
                 this.currentQuestion.id,
                 this.selectedAnswerId,
             );
+            this.sessionScore = result.score_after;
             this.answerResult = result;
             this.feedbackPhraseIndex = Math.floor(Math.random() * CORRECT_PHRASES.length);
             this.feedbackVisible = true;
@@ -204,13 +207,13 @@ export class AddonModChallengeLearningIndexComponent
     get scoreBarWidth(): number {
         return Math.min(100, this.answerResult
             ? this.answerResult.score_after
-            : (this.overview?.smartscore ?? 0));
+            : this.sessionScore);
     }
 
     get currentScore(): number {
         return this.answerResult
             ? this.answerResult.score_after
-            : (this.overview?.smartscore ?? 0);
+            : this.sessionScore;
     }
 
     get scoreChangeLabel(): string {
