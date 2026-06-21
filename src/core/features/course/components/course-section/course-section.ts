@@ -23,7 +23,7 @@ import { CoreSharedModule } from '@/core/shared.module';
 import { toBoolean } from '@/core/transforms/boolean';
 import { CoreCourseAnyCourseData } from '@features/courses/services/courses';
 import { CoreCourseViewedModulesDBRecord } from '@features/course/services/database/course';
-import { sectionContentIsModule } from '@features/course/services/course';
+import { CoreCourse, sectionContentIsModule } from '@features/course/services/course';
 import { CoreCourseFormatDelegate } from '@features/course/services/format-delegate';
 // //Arabinda - added - 2026-02-22: Import completion tracking for chapter progress bar
 import { CoreCourseModuleCompletionStatus, CoreCourseModuleCompletionTracking } from '@features/course/constants';
@@ -68,18 +68,23 @@ export class CoreCourseSectionComponent implements OnInit {
     // //Arabinda - added - 2026-02-22: Chapter progress bar computation - Start
     /**
      * Returns completion progress for this section based on tracked modules.
+     *
      * Returns null if no trackable modules exist in this section.
+     *
+     * @returns Section progress, or null if no trackable modules exist.
      */
     getSectionProgress(): { percent: number; completed: number; total: number } | null {
-        const modules = this.section.contents.filter(item => sectionContentIsModule(item));
+        const modules = CoreCourse.getSectionsModules([this.section]);
         const trackable = modules.filter(
-            m => m.completiondata && m.completiondata.tracking !== CoreCourseModuleCompletionTracking.NONE,
+            m => m.completiondata &&
+                m.completiondata.tracking !== CoreCourseModuleCompletionTracking.NONE &&
+                m.visibleoncoursepage !== 0,
         );
         if (trackable.length === 0) {
             return null;
         }
         const completed = trackable.filter(
-            m => m.completiondata!.state !== CoreCourseModuleCompletionStatus.COMPLETION_INCOMPLETE,
+            m => m.completiondata?.state !== CoreCourseModuleCompletionStatus.COMPLETION_INCOMPLETE,
         ).length;
 
         return {

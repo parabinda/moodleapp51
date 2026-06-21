@@ -10,3 +10,58 @@
         margin-right: 4px;
     }
 }
+
+.core-course-chapter-list {
+    padding: 8px 0 16px;
+}
+
+.core-course-chapter-list-item {
+    --min-height: 72px;
+    --padding-start: 16px;
+    --inner-padding-end: 12px;
+    margin: 8px 12px;
+    border: var(--ion-card-border-width) solid var(--ion-card-border-color);
+    border-radius: 8px;
+    overflow: hidden;
+
+    h2 {
+        align-items: center;
+        display: flex;
+        gap: 6px;
+        font-size: 16px;
+        font-weight: 600;
+        line-height: 1.25;
+        margin: 0 0 4px;
+    }
+
+    ion-badge {
+        margin-top: 6px;
+    }
+}
+
+.core-course-chapter-meta {
+    color: var(--ion-color-medium);
+    font-size: 13px;
+    margin: 0;
+}
+
+.core-course-chapter-progress {
+    align-items: center;
+    color: #b8860b;
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    font-size: 12px;
+    font-weight: 700;
+    gap: 2px;
+    justify-content: center;
+    min-width: 46px;
+
+    svg {
+        display: block;
+    }
+}
+
+.core-course-back-to-chapters {
+    margin: 8px 12px 0;
+}

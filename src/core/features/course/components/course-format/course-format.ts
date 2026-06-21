@@ -58,6 +58,8 @@ import {
     CORE_COURSE_EXPANDED_SECTIONS_PREFIX,
     CORE_COURSE_SELECT_TAB,
     CORE_COURSE_STEALTH_MODULES_SECTION_ID,
+    CoreCourseModuleCompletionStatus,
+    CoreCourseModuleCompletionTracking,
 } from '@features/course/constants';
 import { toBoolean } from '@/core/transforms/boolean';
 import { CoreInfiniteLoadingComponent } from '@components/infinite-loading/infinite-loading';
@@ -121,6 +123,7 @@ export class CoreCourseFormatComponent implements OnInit, OnChanges, OnDestroy {
     selectedSection?: CoreCourseSectionToDisplay;
     previousSection?: CoreCourseSectionToDisplay;
     nextSection?: CoreCourseSectionToDisplay;
+    chapterListVisible = false;
     allSectionsId = CORE_COURSE_ALL_SECTIONS_ID;
     stealthModulesSectionId = CORE_COURSE_STEALTH_MODULES_SECTION_ID;
     loaded = false;
@@ -350,33 +353,102 @@ export class CoreCourseFormatComponent implements OnInit, OnChanges, OnDestroy {
             });
         }
 
-        const allSectionsPreferred = await this.isAllSectionsPreferred();
         if (!this.loaded) {
-            // No section specified, not found or not visible, load current section or the section with last module viewed.
-            const currentSectionData = await CoreCourseFormatDelegate.getCurrentSection(this.course, sections);
-
-            let section = currentSectionData.section;
-            let moduleId: number | undefined;
-
-            // If all sections is not preferred, load the last viewed module section.
-            if (!allSectionsPreferred && this.lastModuleViewed) {
-                if (!currentSectionData.forceSelected) {
-                    // Search the section with the last module viewed.
-                    const lastModuleSection = this.getViewedModuleSection();
-                    section = lastModuleSection || section;
-                    moduleId = lastModuleSection ? this.lastModuleViewed.cmId : undefined;
-                } else {
-                    const modules = CoreCourse.getSectionsModules([currentSectionData.section]);
-                    if (modules.some(module => module.id === this.lastModuleViewed?.cmId)) {
-                        // Last module viewed is inside the highlighted section.
-                        moduleId = this.lastModuleViewed.cmId;
-                    }
-                }
-            }
-
+            // No section specified, not found or not visible. Show a chapter-first landing page.
             this.loaded = true;
-            this.sectionChanged(section, moduleId);
+            this.showChapterList();
         }
+    }
+
+    /**
+     * Get sections to display in the chapter list.
+     *
+     * @returns Sections.
+     */
+    getChapterListSections(): CoreCourseSectionToDisplay[] {
+        return this.sections.filter((section) => section.id !== this.allSectionsId &&
+            section.id !== this.stealthModulesSectionId &&
+            !section.hiddenbynumsections &&
+            !CoreCourseHelper.isSectionStealth(section));
+    }
+
+    /**
+     * Open the chapter list page.
+     */
+    showChapterList(): void {
+        this.chapterListVisible = true;
+        this.previousSection = undefined;
+        this.nextSection = undefined;
+        this.selectedSection = undefined;
+        this.data.section = undefined;
+        this.setAllSectionsPreferred(true);
+        this.content.scrollToTop(0);
+        this.logView(undefined, false);
+        this.changeDetectorRef.markForCheck();
+    }
+
+    /**
+     * Open a chapter from the chapter list.
+     *
+     * @param section Section to open.
+     */
+    openChapter(section: CoreCourseSectionToDisplay): void {
+        if (!this.canViewSection(section)) {
+            return;
+        }
+
+        this.sectionChanged(section);
+    }
+
+    /**
+     * Get progress for a section based on trackable modules.
+     *
+     * @param section Section.
+     * @returns Progress, or null if the section has no trackable modules.
+     */
+    getSectionProgress(section: CoreCourseSectionToDisplay): { percent: number; completed: number; total: number } | null {
+        const modules = CoreCourse.getSectionsModules([section]);
+        const trackable = modules.filter(
+            module => module.completiondata &&
+                module.completiondata.tracking !== CoreCourseModuleCompletionTracking.NONE &&
+                module.visibleoncoursepage !== 0,
+        );
+
+        if (trackable.length === 0) {
+            return null;
+        }
+
+        const completed = trackable.filter(
+            module => module.completiondata?.state !== CoreCourseModuleCompletionStatus.COMPLETION_INCOMPLETE,
+        ).length;
+
+        return {
+            percent: Math.round((completed / trackable.length) * 100),
+            completed,
+            total: trackable.length,
+        };
+    }
+
+    /**
+     * Count visible modules in a section.
+     *
+     * @param section Section.
+     * @returns Module count.
+     */
+    getSectionModuleCount(section: CoreCourseSectionToDisplay): number {
+        return CoreCourse.getSectionsModules([section])
+            .filter(module => module.visibleoncoursepage !== 0 && !CoreCourseHelper.isModuleStealth(module, section))
+            .length;
+    }
+
+    /**
+     * Get whether a section can be selected from the chapter list.
+     *
+     * @param section Section.
+     * @returns Whether the section is locked for this user.
+     */
+    isChapterLocked(section: CoreCourseSectionToDisplay): boolean {
+        return !this.canViewSection(section);
     }
 
     /**
@@ -556,6 +628,7 @@ export class CoreCourseFormatComponent implements OnInit, OnChanges, OnDestroy {
      */
     sectionChanged(newSection: CoreCourseSectionToDisplay, moduleId?: number): void {
         const previousValue = this.selectedSection;
+        this.chapterListVisible = false;
         this.selectedSection = newSection;
 
         this.data.section = this.selectedSection;

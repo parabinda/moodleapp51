@@ -67,7 +67,10 @@ export class WasmSQLiteObject implements SQLiteObject {
      */
     async open(): Promise<void> {
         const promiser = await new Promise<Sqlite3Worker1Promiser>((resolve) => {
-            const _promiser = sqlite3Worker1Promiser(() => resolve(_promiser));
+            const _promiser = sqlite3Worker1Promiser({
+                onready: () => resolve(_promiser),
+                worker: () => new Worker(new URL('./wasm-sqlite.worker', import.meta.url), { type: 'module' }),
+            });
         });
 
         const response = await promiser('config-get', {});

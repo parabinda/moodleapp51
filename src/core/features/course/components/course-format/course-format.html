@@ -7,9 +7,68 @@
     <!-- Default course format. -->
     <core-loading [hideUntil]="loaded" placeholderType="listwithicon" placeholderHeight="128px" placeholderWidth="44px">
 
+        @if (chapterListVisible) {
+            <!-- Chapter list. -->
+            <div class="core-course-chapter-list list-item-limited-width">
+                @for (section of getChapterListSections(); track section.id) {
+                    <ion-item button detail="true" class="core-course-chapter-list-item"
+                        [class.item-dimmed]="section.visible === 0 || section.uservisible === false"
+                        [disabled]="isChapterLocked(section)" (click)="openChapter(section)">
+                        <ion-label class="ion-text-wrap">
+                            @if (section.name) {
+                                <h2>
+                                    <core-format-text [text]="section.name" contextLevel="course"
+                                        [contextInstanceId]="course.id" />
+                                    @if (section.availabilityinfo || isChapterLocked(section)) {
+                                        <ion-icon name="fas-lock" [attr.aria-label]="'core.restricted' | translate" />
+                                    }
+                                </h2>
+                            }
+
+                            <p class="core-course-chapter-meta">
+                                {{ getSectionModuleCount(section) }} {{ 'core.activities' | translate }}
+                            </p>
+
+                            @if (section.visible === 0 && section.uservisible !== false) {
+                                <ion-badge color="secondary" class="ion-text-wrap">
+                                    <ion-icon name="far-eye-slash" aria-hidden="true" />
+                                    {{ 'core.course.hiddenfromstudents' | translate }}
+                                </ion-badge>
+                            }
+                            @if (section.visible === 0 && section.uservisible === false) {
+                                <ion-badge color="warning">
+                                    {{ 'core.notavailable' | translate }}
+                                </ion-badge>
+                            }
+                        </ion-label>
+
+                        @if (getSectionProgress(section); as progress) {
+                            <div slot="end" class="core-course-chapter-progress"
+                                [attr.aria-label]="progress.percent + '% completed'">
+                                <svg width="38" height="38" viewBox="0 0 36 36">
+                                    <circle cx="18" cy="18" r="15.9" fill="none" stroke="#e8e8e8" stroke-width="3.5" />
+                                    <circle cx="18" cy="18" r="15.9" fill="none" stroke="#b8860b" stroke-width="3.5"
+                                        [attr.stroke-dasharray]="progress.percent + ' ' + (100 - progress.percent)"
+                                        stroke-linecap="round" transform="rotate(-90 18 18)" />
+                                </svg>
+                                <span>{{ progress.percent }}%</span>
+                            </div>
+                        }
+                    </ion-item>
+                } @empty {
+                    <core-empty-box icon="fas-table-cells-large" [message]="'core.course.nocontentavailable' | translate" />
+                }
+            </div>
+        }
+
         @if (selectedSection && selectedSection.id !== allSectionsId) {
             <!-- Single section. -->
             <div class="list-item-limited-width">
+                <ion-button fill="clear" class="core-course-back-to-chapters" (click)="showChapterList()">
+                    <ion-icon name="fas-arrow-left" slot="start" aria-hidden="true" />
+                    Chapters
+                </ion-button>
+
                 <core-dynamic-component [component]="singleSectionComponent" [data]="data">
                     <ion-accordion-group [multiple]="true" (ionChange)="accordionMultipleChange($event.detail)"
                         [value]="accordionMultipleValue">
