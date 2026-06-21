@@ -49,6 +49,18 @@ echo "Pushing $BRANCH to origin..."
 git push origin "$BRANCH"
 
 HEAD_SHA="$(git rev-parse HEAD)"
+BEFORE_RUN_ID="$(
+    gh run list \
+        --repo "$REPO" \
+        --workflow "$WORKFLOW" \
+        --limit 1 \
+        --json databaseId \
+        --jq '.[0].databaseId // 0'
+)"
+
+echo "Triggering $WORKFLOW on $BRANCH at commit $HEAD_SHA..."
+gh workflow run "$WORKFLOW" --repo "$REPO" --ref "$BRANCH"
+
 echo "Waiting for $WORKFLOW on $BRANCH at commit $HEAD_SHA..."
 
 RUN_ID=""
@@ -62,7 +74,7 @@ while [ "$SECONDS" -lt "$DEADLINE" ]; do
             --workflow "$WORKFLOW" \
             --limit 50 \
             --json databaseId,headBranch,headSha,status,conclusion,url \
-            --jq "map(select(.headBranch == \"$BRANCH\" and .headSha == \"$HEAD_SHA\")) | sort_by(.databaseId) | reverse | .[0] | if . == null then \"\" else [.databaseId, .status, (.conclusion // \"\"), .url] | @tsv end"
+            --jq "map(select(.databaseId > $BEFORE_RUN_ID and .headBranch == \"$BRANCH\" and .headSha == \"$HEAD_SHA\")) | sort_by(.databaseId) | reverse | .[0] | if . == null then \"\" else [.databaseId, .status, (.conclusion // \"\"), .url] | @tsv end"
     )"
 
     if [ -n "$RUN_TSV" ]; then
