@@ -13,10 +13,15 @@
 // limitations under the License.
 
 import { CoreFile } from '@services/file';
+import { CorePlatform } from '@services/platform';
 
 /**
  * Clears the temporary folder.
  */
 export default async function(): Promise<void> {
+    if (!CorePlatform.isMobile()) {
+        return;
+    }
+
     await CoreFile.clearTmpFolder();
 }

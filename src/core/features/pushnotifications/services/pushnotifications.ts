@@ -593,6 +593,10 @@ export class CorePushNotificationsProvider {
      * @returns Promise resolved when the device is registered.
      */
     async registerDevice(): Promise<void> {
+        if (!CorePlatform.isMobile()) {
+            return;
+        }
+
         try {
             // Check if sound is enabled for notifications.
             const options = await this.getOptions();

@@ -80,6 +80,10 @@ export class CoreLocalNotificationsProvider {
     async initialize(): Promise<void> {
         await CorePlatform.ready();
 
+        if (!CorePlatform.isMobile()) {
+            return;
+        }
+
         // Request permission when the app starts.
         LocalNotifications.requestPermission();
 

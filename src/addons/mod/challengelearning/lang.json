@@ -13,6 +13,8 @@
     "incorrect": "Incorrect",
     "score_change": "SmartScore {{change}}",
     "next_question": "Next →",
+    "see_results": "See Results",
+    "solution": "Solution",
     "previous_sessions": "My Previous Sessions",
     "no_sessions": "No sessions yet. Start your first challenge!",
     "session_num": "#{{num}}",

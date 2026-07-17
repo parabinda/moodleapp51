@@ -75,16 +75,15 @@ export class WasmSQLiteObject implements SQLiteObject {
 
         const response = await promiser('config-get', {});
         const isEnabled = (response as any).result.opfsEnabled;
-        if (!isEnabled) {
-            this.logger.error('opfsEnabled flag is disabled. Reloading the page.');
-
-            // @TODO Fix Workaround for the issue with the opfsEnabled flag.
-            // The flag gets disabled when opening a database, so we need to reload the page to make it work.
-            window.location.reload();
-        }
 
         try {
-            await promiser('open', { filename: `file:${this.name}.sqlite3`, vfs: 'opfs' });
+            if (isEnabled) {
+                await promiser('open', { filename: `file:${this.name}.sqlite3`, vfs: 'opfs' });
+            } else {
+                this.logger.warn('OPFS is disabled. Opening an in-memory database.');
+
+                await promiser('open', { filename: ':memory:' });
+            }
         } catch (error) {
             this.logger.error(`Error opening database: ${this.name}. Details: ${error.result.message}`);
 

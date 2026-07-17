@@ -28,7 +28,7 @@ jobs:
       - name: Build iOS Project (Unsigned)
         # We skip code signing here to build on GitHub without a paid account
         run: |
-          ionic cordova build ios --release -- --CODE_SIGN_IDENTITY="" --CODE_SIGNING_REQUIRED=NO --CODE_SIGNING_ALLOWED=NO
+          NODE_ENV=production ionic cordova build ios --release -- --CODE_SIGN_IDENTITY="" --CODE_SIGNING_REQUIRED=NO --CODE_SIGNING_ALLOWED=NO
 
       - name: Package Unsigned IPA
         # IPA is just a renamed zip of the 'Payload' folder containing the .app

@@ -1,0 +1,11 @@
+{
+    "sites": [
+        {
+            "name": "EVidya",
+            "alias": "EVidya Excellence",
+            "url": "https://pg.dynaperf.com",
+            "staging": true
+        }
+    ],
+    "privacypolicy": "https://pg.dynaperf.com/mod/page/view.php?id=629"
+}

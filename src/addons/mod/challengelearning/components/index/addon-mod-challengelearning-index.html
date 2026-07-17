@@ -131,7 +131,7 @@
                 </ion-button>
             }
 
-            <!-- Ephemeral feedback panel -->
+            <!-- Feedback panel -->
             @if (answerResult && feedbackVisible) {
                 <div class="cyl-feedback" [class.feedback-correct]="answerResult.is_correct"
                     [class.feedback-wrong]="!answerResult.is_correct">
@@ -147,10 +147,24 @@
                             <span class="cyl-fb-msg">{{ 'addon.mod_challengelearning.incorrect' | translate }}</span>
                             <span class="cyl-fb-delta delta-down">{{ scoreChangeLabel }}</span>
                         </div>
-                        <ion-button expand="block" class="cyl-next-btn" (click)="nextQuestion()">
-                            {{ 'addon.mod_challengelearning.next_question' | translate }}
-                        </ion-button>
                     }
+                    @if (answerResult.general_feedback) {
+                        <div class="cyl-fb-solution">
+                            <div class="cyl-fb-solution-title">
+                                {{ 'addon.mod_challengelearning.solution' | translate }}
+                            </div>
+                            <core-format-text [component]="component" [componentId]="module.id"
+                                [text]="answerResult.general_feedback" contextLevel="module"
+                                [contextInstanceId]="module.id" />
+                        </div>
+                    }
+                    <ion-button expand="block" class="cyl-next-btn" (click)="nextQuestion()">
+                        @if (answerResult.is_last) {
+                            {{ 'addon.mod_challengelearning.see_results' | translate }}
+                        } @else {
+                            {{ 'addon.mod_challengelearning.next_question' | translate }}
+                        }
+                    </ion-button>
                 </div>
             }
         </div>

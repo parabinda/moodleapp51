@@ -293,7 +293,7 @@
     margin-top: 0.25rem;
 }
 
-// Ephemeral feedback panel
+// Feedback panel
 .cyl-feedback {
     border-radius: 14px;
     padding: 1rem 1.25rem;
@@ -348,6 +348,23 @@
     font-size: 1rem;
     font-weight: 700;
     margin-left: auto;
+}
+
+.cyl-fb-solution {
+    margin-top: 0.85rem;
+    padding: 0.8rem 0.9rem;
+    background: var(--ion-card-background, #fff);
+    border-left: 4px solid #198754;
+    border-radius: 8px;
+    color: var(--ion-text-color);
+    line-height: 1.5;
+}
+
+.cyl-fb-solution-title {
+    margin-bottom: 0.4rem;
+    font-size: 0.85rem;
+    font-weight: 800;
+    color: #155724;
 }
 
 .cyl-next-btn {

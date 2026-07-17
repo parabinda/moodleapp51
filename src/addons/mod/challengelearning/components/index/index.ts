@@ -67,8 +67,6 @@ export class AddonModChallengeLearningIndexComponent
 
     protected fetchContentDefaultError = 'addon.mod_challengelearning.error_loading';
 
-    private feedbackTimer?: ReturnType<typeof setTimeout>;
-
     async ngOnInit(): Promise<void> {
         super.ngOnInit();
         await this.loadContent();
@@ -141,11 +139,6 @@ export class AddonModChallengeLearningIndexComponent
                 this.sessionTotal      = result.session_total;
                 this.finalAchievements = result.achievements ?? [];
             }
-
-            // Auto-advance on correct after 1.5 s so feedback feels ephemeral.
-            if (result.is_correct) {
-                this.feedbackTimer = setTimeout(() => this.nextQuestion(), 1500);
-            }
         } catch {
             this.selectedAnswerId = null;
             this.pendingAnswerId = null;
@@ -155,10 +148,6 @@ export class AddonModChallengeLearningIndexComponent
     }
 
     async nextQuestion(): Promise<void> {
-        if (this.feedbackTimer) {
-            clearTimeout(this.feedbackTimer);
-            this.feedbackTimer = undefined;
-        }
         this.feedbackVisible = false;
 
         if (!this.answerResult) return;
@@ -181,10 +170,6 @@ export class AddonModChallengeLearningIndexComponent
     }
 
     backToDashboard(): void {
-        if (this.feedbackTimer) {
-            clearTimeout(this.feedbackTimer);
-            this.feedbackTimer = undefined;
-        }
         this.pendingAnswerId  = null;
         this.selectedAnswerId = null;
         this.answerResult     = undefined;
