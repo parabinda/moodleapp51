@@ -82,23 +82,7 @@
                         <!-- Signup form. -->
                         <form [formGroup]="signupForm" (ngSubmit)="create($event)" #signupFormEl>
 
-                            <ion-item class="ion-text-wrap ion-text-center">
-                                <ion-label>
-                                    <!-- If no sitename show big siteurl. -->
-                                    @if (!siteName && displaySiteUrl) {
-                                        <p class="ion-padding item-heading">{{site.siteUrl}}</p>
-                                    }
-                                    <!-- If sitename, show big sitename and small siteurl. -->
-                                    @if (siteName) {
-                                        <p class="ion-padding item-heading">
-                                            <core-format-text [text]="siteName" [filter]="false" />
-                                        </p>
-                                    }
-                                    @if (siteName && displaySiteUrl) {
-                                        <p>{{site.siteUrl}}</p>
-                                    }
-                                </ion-label>
-                            </ion-item>
+                            <h2 class="ion-text-center ion-padding core-login-welcome">Welcome to EVidya!</h2>
 
                             <!-- Username and password. -->
                             <ion-item class="ion-text-wrap">

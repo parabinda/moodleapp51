@@ -27,11 +27,7 @@
 
                 <div class="ion-text-wrap ion-text-center core-login-info-box">
                     <div class="core-login-site">
-                        <core-site-logo siteNameMode="p" [showLogo]="!showUserAvatar" [site]="site" />
-
-                        @if (displaySiteUrl) {
-                            <p class="core-siteurl">{{site.siteUrl}}</p>
-                        }
+                        <core-site-logo siteNameMode="p" [showLogo]="!showUserAvatar" [site]="site" hideSiteName="true" />
                     </div>
 
                     <div class="core-login-user">

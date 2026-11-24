@@ -44,6 +44,7 @@ export class CoreSiteLogoComponent implements OnInit, OnDestroy {
     @Input({ transform: toBoolean }) showLogo = true;
     @Input() site?: CoreSite | CoreUnauthenticatedSite;
     @Input() logoType: 'top' | 'login' = 'login';
+    @Input({ transform: toBoolean }) hideSiteName = false;
 
     siteName?: string;
     siteId?: string;
@@ -67,7 +68,7 @@ export class CoreSiteLogoComponent implements OnInit, OnDestroy {
         }, this.siteId);
 
         this.fallbackLogo = this.logoType === 'top' ? 'assets/img/top_logo.png' : 'assets/img/login_logo.png';
-        this.showSiteName = this.logoType !== 'top';
+        this.showSiteName = !this.hideSiteName && this.logoType !== 'top';
 
         await this.loadInfo();
     }
@@ -107,7 +108,7 @@ export class CoreSiteLogoComponent implements OnInit, OnDestroy {
 
         this.siteName = await site.getSiteName() || '';
 
-        this.showSiteName = this.logoType !== 'top' || site.getShowTopLogo() === 'hidden';
+        this.showSiteName = !this.hideSiteName && (this.logoType !== 'top' || site.getShowTopLogo() === 'hidden');
 
         this.logoError = false;
 
